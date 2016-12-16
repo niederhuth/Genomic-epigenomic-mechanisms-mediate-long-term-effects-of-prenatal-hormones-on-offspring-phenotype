@@ -24,9 +24,9 @@ cd ../misc
 gunzip Taeniopygia_guttata.taeGut3.2.4.86.gff3.gz
 mv Taeniopygia_guttata.taeGut3.2.4.86.gff3 Tguttata_v3.2.4.gff
 sed -i s/_random/random/g Tguttata_v3.2.4.gff
-#time ../../../scripts/gffread Tguttata_v3.2.4.gff -T -o Tguttata_v3.2.4.gtf
-#time bash ../../../scripts/cuffdiff_gtf_attributes --input=Tguttata_v3.2.4.gtf --output=Tguttata_v3.2.4_fixed.gtf
-#sed -i s/_random/random/g Tguttata_v3.2.4_mask.gff
+time ../../../scripts/gffread Tguttata_v3.2.4.gff -T -o Tguttata_v3.2.4.gtf
+time bash ../../../scripts/cuffdiff_gtf_attributes --input=Tguttata_v3.2.4.gtf --output=Tguttata_v3.2.4_fixed.gtf
+sed -i s/_random/random/g Tguttata_v3.2.4_mask.gff
 cd ../
 
 #Prepare fai, dict, and genome files

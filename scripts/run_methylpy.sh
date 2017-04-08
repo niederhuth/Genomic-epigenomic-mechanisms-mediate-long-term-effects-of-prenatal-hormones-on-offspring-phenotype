@@ -1,14 +1,14 @@
 #PBS -S /bin/bash
 #PBS -q batch
 #PBS -N methylpy
-#PBS -l nodes=1:ppn=12:rjsnode
+#PBS -l nodes=1:ppn=12:HIGHMEM
 #PBS -l walltime=480:00:00
-#PBS -l mem=30gb
+#PBS -l mem=100gb
 
-echo "Starting"
 cd $PBS_O_WORKDIR
-sample=$(pwd | sed s/.*data\\/// | sed s/\\/.*//)
+echo "Starting"
 mkdir allc reports
+sample=$(pwd | sed s/.*data\\/// | sed s/\\/methylCseq//)
 
 #Uncompress fastq files
 cd ../fastq/methylCseq
@@ -18,11 +18,20 @@ do
 gunzip "$i"
 done
 
+#Reverse complement
+echo "Reverse complementing the paired end read"
+for i in *_R2_001.fastq 
+do
+output=$(echo "$i" | sed s/.fastq/_rc.fastq/)
+time /usr/local/apps/fastx/0.0.14/bin/fastx_reverse_complement -i "$i" -o "$output"
+gzip "$i"
+done
+
 #Run methylpy
 cd ../../methylCseq
 echo "run methylpy"
 module load python/2.7.8
-python ../../../scripts/run_methylpy.py "$sample" "../fastq/methylCseq/*.fastq" "../ref/methylCseq/Tguttata_v3.2.4" "10" "9" "L" > reports/"$sample"_output.txt
+python ../../../scripts/run_methylpy.py "$sample" "../fastq/methylCseq/*.fastq" "../../ref/methylCseq/Tguttata_v3.2.4" "10" "9" "L" > reports/"$sample"_output.txt
 
 #Format allc files
 echo "Formatting allc files"
@@ -38,7 +47,7 @@ done
 tar -cjvf "$sample"_allc.tar.bz2 allc_"$sample"_*
 rm allc_*
 cd tmp
-rm allc_"$sample"_L.tsv
+rm allc_"$sample"_L.tsv allc_"$sample"_MT.tsv
 cat header allc_* > ../"$sample"_allc_total.tsv
 cd ..
 rm -R tmp

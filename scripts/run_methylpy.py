@@ -5,7 +5,7 @@ from methylpy.call_mc import run_methylation_pipeline
 
 
 def main(argv):
-	
+
 	#Sample name
 	sample = argv[0]
 
@@ -18,23 +18,23 @@ def main(argv):
 	#Genome (take col0_t9 as example)
 	f_ref = argv[2] + "_f"
 	r_ref = argv[2] + "_r"
-	ref_fasta = argv[2] + "_all_chr.fa"
+	ref_fasta = argv[2] + ".fa"
 
 	#Number of processors
 	num_procs = int(argv[3])
-	
+
 	#Sort memory
 	sort_mem = argv[4] + "G"
-	
+
 	#Adapter
 	adapter_seq = 'AGATCGGAAGAGCTCGTATGCC'
 
 	#Control "chrC:" or "chrL:"
 	m_control = argv[5] + ":"
-                         
+
 	run_methylation_pipeline(files=files,
 						 	 libraries=libraries,
-						 	 sample=sample, 
+						 	 sample=sample,
 						 	 forward_reference=f_ref,
 						 	 reverse_reference=r_ref,
 						 	 reference_fasta=ref_fasta,
@@ -67,8 +67,7 @@ def main(argv):
                         	 min_base_quality=1,
                          	 path_to_MarkDuplicates=False
                          	 )
-                         
-                      	
+
+
 if __name__ == "__main__":
    main(sys.argv[1:])
-

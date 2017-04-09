@@ -7,7 +7,7 @@
 
 echo "Starting"
 cd $PBS_O_WORKDIR
-module load tophat/2.0.13
+module load tophat/2.1.1
 module load python/2.7.8
 module load java/jdk1.8.0_20
 module load fastqc/0.11.4

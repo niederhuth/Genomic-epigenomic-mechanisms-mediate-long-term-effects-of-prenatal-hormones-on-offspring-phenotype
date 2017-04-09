@@ -6,6 +6,7 @@
 #PBS -l mem=100gb
 
 cd $PBS_O_WORKDIR
+module load python/2.7.8
 echo "Starting"
 mkdir allc reports
 sample=$(pwd | sed s/.*data\\/// | sed s/\\/methylCseq//)
@@ -26,7 +27,7 @@ do
   time /usr/local/apps/fastx/0.0.14/bin/fastx_reverse_complement -i "$i" -o tmp.fastq
   python /usr/local/apps/cutadapt/1.9.dev1/bin/cutadapt -g AGATCGGAAGAGCACACGTCTG -o "$output" tmp.fastq
   rm tmp.fastq
-  gzip "$i"
+  #gzip "$i"
 done
 
 #Run methylpy

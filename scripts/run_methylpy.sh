@@ -59,7 +59,7 @@ echo "Cleaning up intermediate files"
 rm *mpileup* *.bam *.bam.bai
 
 #Compress fastq files
-cd ../../fastq/methylCseq
+cd ../fastq/methylCseq
 echo "Compressing fastq files"
 rm *_rc.fastq
 for i in *fastq

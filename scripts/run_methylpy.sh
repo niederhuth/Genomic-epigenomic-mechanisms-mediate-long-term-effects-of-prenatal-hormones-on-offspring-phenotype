@@ -27,7 +27,7 @@ do
   time /usr/local/apps/fastx/0.0.14/bin/fastx_reverse_complement -i "$i" -o tmp.fastq
   python /usr/local/apps/cutadapt/1.9.dev1/bin/cutadapt -g AGATCGGAAGAGCACACGTCTG -o "$output" tmp.fastq
   rm tmp.fastq
-  #gzip "$i"
+  gzip "$i"
 done
 
 #Run methylpy

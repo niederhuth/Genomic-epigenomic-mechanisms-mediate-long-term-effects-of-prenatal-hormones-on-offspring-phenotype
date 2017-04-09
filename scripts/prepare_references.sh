@@ -14,7 +14,7 @@ module load tophat/2.1.1
 module load python/2.7.8
 
 #Unpack needed fasta files
-cd ../misc
+cd ../../misc
 gunzip ChrL.fa.gz
 cd ../data/ref
 

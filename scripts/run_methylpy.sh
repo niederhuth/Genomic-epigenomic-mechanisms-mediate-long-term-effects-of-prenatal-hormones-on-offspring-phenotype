@@ -61,6 +61,7 @@ rm *mpileup* *.bam *.bam.bai
 #Compress fastq files
 cd ../../fastq/methylCseq
 echo "Compressing fastq files"
+rm *_rc.fastq
 for i in *fastq
 do
   gzip "$i"

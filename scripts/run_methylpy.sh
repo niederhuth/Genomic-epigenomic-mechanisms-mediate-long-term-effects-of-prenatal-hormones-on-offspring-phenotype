@@ -23,7 +23,9 @@ echo "Reverse complementing the paired end read"
 for i in *_R2_001.fastq
 do
   output=$(echo "$i" | sed s/.fastq/_rc.fastq/)
-  time /usr/local/apps/fastx/0.0.14/bin/fastx_reverse_complement -i "$i" -o "$output"
+  time /usr/local/apps/fastx/0.0.14/bin/fastx_reverse_complement -i "$i" -o tmp.fastq
+  python /usr/local/apps/cutadapt/1.9.dev1/bin/cutadapt -g AGATCGGAAGAGCACACGTCTG -o "$output" tmp.fastq
+  rm tmp.fastq
   gzip "$i"
 done
 

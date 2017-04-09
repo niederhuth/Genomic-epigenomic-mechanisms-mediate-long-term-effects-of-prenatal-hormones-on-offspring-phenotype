@@ -59,7 +59,7 @@ cd ../
 #Prepare methylCseq index
 echo "Making methylCseq indexes"
 cd methylCseq
-cat ../bowtie2/Tguttata_v3.2.4.fa ChrL.fa > tmp
+cat ../bowtie2/Tguttata_v3.2.4.fa ../../../misc/ChrL.fa > tmp
 python ../../../scripts/fix_fasta.py -i tmp -o Tguttata_v3.2.4.fa
 rm tmp
 time samtools faidx Tguttata_v3.2.4.fa

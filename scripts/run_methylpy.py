@@ -18,7 +18,7 @@ def main(argv):
 	#Genome (take col0_t9 as example)
 	f_ref = argv[2] + "_f"
 	r_ref = argv[2] + "_r"
-	ref_fasta = argv[2] + ".fa"
+	ref_fasta = argv[2] + ".fasta"
 
 	#Number of processors
 	num_procs = int(argv[3])

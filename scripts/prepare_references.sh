@@ -60,9 +60,9 @@ cd ../
 echo "Making methylCseq indexes"
 cd methylCseq
 cat ../bowtie2/Tguttata_v3.2.4.fa ../../../misc/ChrL.fa > tmp
-python ../../../scripts/fix_fasta.py -i tmp -o Tguttata_v3.2.4.fa
+python ../../../scripts/fix_fasta.py -i tmp -o Tguttata_v3.2.4.fasta
 rm tmp
-time samtools faidx Tguttata_v3.2.4.fa
+time samtools faidx Tguttata_v3.2.4.fasta
 python ../../../scripts/build_Tguttata_methylCseq_index.py
 cd ../../
 

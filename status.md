@@ -1,6 +1,13 @@
 ---
 Daily status of the analysis
 ---
+#### April 10, 2017
+1. Added scripts for DMR analysis
+
+#### April 9, 2017
+1. Fixed scripts for methylCseq and RNAseq analysis
+2. Started methylCseq mapping
+3. Started RNAseq mapping
 
 #### Dec 16, 2016
 1. Edited scripts

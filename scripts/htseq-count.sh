@@ -1,6 +1,6 @@
 #PBS -S /bin/bash
-#PBS -q htseq-count
-#PBS -N jobname
+#PBS -q batch
+#PBS -N htseq-count 
 #PBS -l nodes=1:ppn=1:rjsnode
 #PBS -l walltime=4:00:00
 #PBS -l mem=2gb

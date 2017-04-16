@@ -10,5 +10,5 @@ cd $PBS_O_WORKDIR
 module load python/2.7.8
 module load htseq/0.6.1p1
 
-htseq-count -f bam -s no -t exon -i gene_id -m union tophat/accepted_hits.bam ../../ref/transcriptome/Tguttata_v3.2.4.gff > gene_counts2.tsv
+htseq-count -f bam -s reverse -t exon -i gene_id -m union tophat/accepted_hits.bam ../../ref/transcriptome/Tguttata_v3.2.4.gff > gene_counts2.tsv
 

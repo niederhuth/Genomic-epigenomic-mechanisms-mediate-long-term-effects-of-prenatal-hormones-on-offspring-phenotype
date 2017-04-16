@@ -1,6 +1,6 @@
 #PBS -S /bin/bash
 #PBS -q batch
-#PBS -N methylpy
+#PBS -N PE_test
 #PBS -l nodes=1:ppn=12:HIGHMEM
 #PBS -l walltime=480:00:00
 #PBS -l mem=100gb
@@ -19,22 +19,13 @@ do
   gunzip "$i"
 done
 
-#Reverse complement
-echo "Reverse complementing the paired end read"
-for i in *_R2_001.fastq
-do
-  output=$(echo "$i" | sed s/.fastq/_rc.fastq/)
-  python /usr/local/apps/cutadapt/1.9.dev1/bin/cutadapt -a AGATCGGAAGAGCGTCGTGTAGGGA -o tmp.fastq "$i"
-  time /usr/local/apps/fastx/0.0.14/bin/fastx_reverse_complement -i tmp.fastq -o "$output"
-  rm tmp.fastq
-  gzip "$i"
-done
-
 #Run methylpy
 cd ../../methylCseq
 echo "run methylpy"
 module load python/2.7.8
-python ../../../scripts/run_methylpy.py "$sample" "../fastq/methylCseq/*.fastq" "../../ref/methylCseq/Tguttata_v3.2.4" "10" "9" "ChrL" > reports/"$sample"_output.txt
+python ../../../scripts/test_mapping/run_methylpy.py "$sample" "../fastq/methylCseq/*R1_001.fastq" \
+"../fastq/methylCseq/*R2_001.fastq" "../../ref/methylCseq/Tguttata_v3.2.4" "10" "9" "ChrL" \
+> reports/"$sample"_output.txt
 
 #Format allc files
 echo "Formatting allc files"
@@ -64,7 +55,6 @@ rm *mpileup* *.bam *.bam.bai
 #Compress fastq files
 cd ../fastq/methylCseq
 echo "Compressing fastq files"
-rm *_rc.fastq
 for i in *fastq
 do
   gzip "$i"

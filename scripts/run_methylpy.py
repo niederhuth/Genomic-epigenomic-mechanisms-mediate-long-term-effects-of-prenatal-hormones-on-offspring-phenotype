@@ -27,7 +27,7 @@ def main(argv):
 	sort_mem = argv[4] + "G"
 
 	#Adapter
-	adapter_seq = 'AGATCGGAAGAGCTCGTATGCC'
+	adapter_seq = 'AGATCGGAAGAGCACACGTCTGAAC'
 
 	#Control "chrC:" or "chrL:"
 	m_control = argv[5] + ":"

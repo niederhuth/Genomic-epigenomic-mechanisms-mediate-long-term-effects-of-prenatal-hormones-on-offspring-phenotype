@@ -24,3 +24,5 @@ do
   tar -xjvf "$i"
 done
 cd ../../
+
+rm *tar.bz2 *ChrL* *MT*

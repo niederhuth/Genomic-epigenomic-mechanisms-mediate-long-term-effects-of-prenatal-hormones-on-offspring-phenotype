@@ -24,6 +24,8 @@ Daily status of the analysis
 #### April 18, 2017
 1. Make scripts for preparing browser files
 2. filter DMRs and examine in browser
+3. Add functions.py
+4. Add scripts for DMR analysis
 
 #### April 16, 2017
 1. Run cuffdiff_cuffnorm.sh

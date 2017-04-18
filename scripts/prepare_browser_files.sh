@@ -7,6 +7,7 @@
 #PBS -j oe
 
 echo "Starting"
+cd $PBS_O_WORKDIR
 module load python/3.5.1
 mkdir browser_files
 

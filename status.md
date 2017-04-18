@@ -41,7 +41,6 @@ Daily status of the analysis
 #### April 14, 2017
 1. Fixed initial trimming and reverse complementation of methylCseq reads
 2. Rerun methylCseq mapping
->>>>>>> d7d7f74a40b1e34d115368788b4f58c609cd8779
 
 #### April 10, 2017
 1. Added scripts for DMR analysis

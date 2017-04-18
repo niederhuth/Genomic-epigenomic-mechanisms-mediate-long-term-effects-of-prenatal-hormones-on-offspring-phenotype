@@ -8,7 +8,7 @@ samples = ["FCH1","FCH2","FCH3","FCNT1","FCNT2","FCNT3","FTH1","FTH2","FTH3",
 "MTH2","MTH3","MTNT1","MTNT2","MTNT3"]
 
 #Regions included in the DMR analysis
-chrom ={"1","10","11","12","13","14","15","16","17","18","19","1A","1B","2","20","21",
+chrom ={"1","10","11","12","13","14","15","17","18","19","1A","1B","2","20","21",
 "22","23","24","25","26","27","28","3","4","4A","5","6","7","8","9","LG2","LG5",
 "LGE22","Z","Un","4random","8random","Zrandom","13random","5random","6random",
 "21random","2random","26random","3random","1random","22random","1Arandom","7random",

@@ -1,6 +1,12 @@
 ---
 Daily status of the analysis
 ---
+<<<<<<< HEAD
+#### April 13, 2017
+1. Run test DMR analysis -> failed
+2. MTH3 and MTNT1 for some reason failed during methylCseq mapping
+3. Restart methylCseq mapping for MTH3 and MTNT1
+=======
 #### To do
 1. DMR analysis
   1. Filter DMRs
@@ -35,12 +41,14 @@ Daily status of the analysis
 #### April 14, 2017
 1. Fixed initial trimming and reverse complementation of methylCseq reads
 2. Rerun methylCseq mapping
+>>>>>>> d7d7f74a40b1e34d115368788b4f58c609cd8779
 
 #### April 10, 2017
 1. Added scripts for DMR analysis
+2. methylCseq mapping still running
 
 #### April 9, 2017
-1. Fixed scripts for methylCseq and RNAseq analysis
+1. Fixed scripts for methylCseq and RNAseq mapping
 2. Started methylCseq mapping
 3. Started RNAseq mapping
 

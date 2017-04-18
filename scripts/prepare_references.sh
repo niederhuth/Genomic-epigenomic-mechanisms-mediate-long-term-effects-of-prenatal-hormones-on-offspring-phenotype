@@ -28,7 +28,8 @@ gzip Taeniopygia_guttata.taeGut3.2.4.dna.toplevel.fa
 echo "Preparing fai, dict, and genome files"
 time samtools faidx Tguttata_v3.2.4.fa
 cut -f1,2 Tguttata_v3.2.4.fa.fai > Tguttata_v3.2.4.genome
-time java -jar /usr/local/apps/picard/1.87/CreateSequenceDictionary.jar R=Tguttata_v3.2.4.fa O=Tguttata_v3.2.4.dict
+time java -jar /usr/local/apps/picard/1.87/CreateSequenceDictionary.jar \
+R=Tguttata_v3.2.4.fa O=Tguttata_v3.2.4.dict
 
 echo "Making bowtie2 index"
 time bowtie2-build Tguttata_v3.2.4.fa Tguttata_v3.2.4
@@ -51,7 +52,8 @@ cd ../
 #Prepare transcriptome index
 echo "Making transcriptome index"
 cd transcriptome
-time tophat2 -G ../misc/Tguttata_v3.2.4_fixed.gtf --transcriptome-index tmp/Tguttata_v3.2.4 ../bowtie2/Tguttata_v3.2.4
+time tophat2 -G ../misc/Tguttata_v3.2.4_fixed.gtf --transcriptome-index \
+tmp/Tguttata_v3.2.4 ../bowtie2/Tguttata_v3.2.4
 mv tmp/* ./
 rm -R tophat_out/ tmp/
 cd ../

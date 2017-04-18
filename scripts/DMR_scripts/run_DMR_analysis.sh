@@ -22,10 +22,14 @@ cd ../
 cd CH
 echo "Calling CH DMRs"
 python ../../../scripts/DMR_scripts/CH.py > CH_dmrfind_info.txt
-../
+cd ../
 
 #CN
 cd CN
 echo "Calling CN DMRs"
 python ../../../scripts/DMR_scripts/CN.py > CN_dmrfind_info.txt
 cd ../
+
+#Cleanup
+rm allc/*
+echo "Finished"

@@ -15,6 +15,14 @@ Daily status of the analysis
   2. Differential expression
   3. GO term enrichment
 
+#### April 18, 2017
+1. Make scripts for preparing browser files
+2. filter DMRs and examine in browser
+
+#### April 16, 2017
+1. Run cuffdiff_cuffnorm.sh
+2. Work on differential expression
+
 #### April 15, 2017
 1. methylCseq mapping completed
 2. Run prepare_DMR.sh

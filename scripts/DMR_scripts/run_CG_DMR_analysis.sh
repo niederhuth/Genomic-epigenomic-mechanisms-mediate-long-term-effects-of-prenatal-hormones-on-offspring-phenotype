@@ -17,4 +17,3 @@ cd CG
 echo "Calling CG DMRs"
 python ../../../scripts/DMR_scripts/CG.py > CG_dmrfind_info.txt
 cd ../
-

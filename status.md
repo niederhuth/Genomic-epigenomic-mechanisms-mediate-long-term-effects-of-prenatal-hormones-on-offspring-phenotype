@@ -1,25 +1,6 @@
 ---
 Daily status of the analysis
 ---
-<<<<<<< HEAD
-#### April 13, 2017
-1. Run test DMR analysis -> failed
-2. MTH3 and MTNT1 for some reason failed during methylCseq mapping
-3. Restart methylCseq mapping for MTH3 and MTNT1
-=======
-#### To do
-1. DMR analysis
-  1. Filter DMRs
-  2. Cluster Samples based on DMRs
-    1. Does it cluster by treatment, sex, or testosterone level?
-    2. Associate with differentially expressed genes
-  3. Gene metaplots
-    1. Compare differentially expressed genes
-  4. etc
-2. RNAseq
-  1. Quality control metrics
-  2. Differential expression
-  3. GO term enrichment
 
 #### April 18, 2017
 1. Make scripts for preparing browser files
@@ -43,6 +24,11 @@ Daily status of the analysis
 #### April 14, 2017
 1. Fixed initial trimming and reverse complementation of methylCseq reads
 2. Rerun methylCseq mapping
+
+#### April 13, 2017
+1. Run test DMR analysis -> failed
+2. MTH3 and MTNT1 for some reason failed during methylCseq mapping
+3. Restart methylCseq mapping for MTH3 and MTNT1
 
 #### April 10, 2017
 1. Added scripts for DMR analysis

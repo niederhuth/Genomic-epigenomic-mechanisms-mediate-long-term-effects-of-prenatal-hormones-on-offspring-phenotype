@@ -19,6 +19,7 @@ do
   tar -xjvf "$i"_allc_total.tar.bz2
   python3.5 /home/chadn/bin/allc2bigwig/allc_to_bigwig.py -all -sort -p=10 \
   ../../../ref/bowtie2/Tguttata_v3.2.4.fa.fai "$i"_allc_total.tsv
+  rm "$i"_allc_total.tsv
   cd ../../../
 done
 cp */methylCseq/allc/*.bw.c* browser_files/

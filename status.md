@@ -1,6 +1,12 @@
 ---
 Daily status of the analysis
 ---
+#### April 21, 2017
+1. Update run_methylpy.sh
+2. Rename various scripts
+
+#### April 19, 2017
+1. Double checked sample, appears methylCseq libraries are mixed up
 
 #### April 18, 2017
 1. Make scripts for preparing browser files

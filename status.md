@@ -1,6 +1,16 @@
 ---
 Daily status of the analysis
 ---
+### April 23, 2017
+1. Test additional trimming on data quality
+2. Filter out additional MT or pseudogene transcripts from gff files
+3. Restart methylCseq mapping that failed
+
+#### April 22, 2017
+1. Fix methylCseq samples, which were mixed up due to weird naming
+2. Remap methylCseq data
+3. Check RNAseq quality after trimming
+
 #### April 21, 2017
 1. Update run_methylpy.sh
 2. Rename various scripts

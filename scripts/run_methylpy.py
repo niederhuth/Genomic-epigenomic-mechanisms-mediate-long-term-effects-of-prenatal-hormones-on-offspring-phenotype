@@ -27,10 +27,10 @@ def main(argv):
 	sort_mem = argv[4] + "G"
 
 	#Adapter
-	adapter_seq = 'AGATCGGAAGAGCACACGTCTGAAC'
+	adapter_seq = argv[5]
 
 	#Control "chrC:" or "chrL:"
-	m_control = argv[5] + ":"
+	m_control = argv[6] + ":"
 
 	run_methylation_pipeline(files=files,
 						 	 libraries=libraries,

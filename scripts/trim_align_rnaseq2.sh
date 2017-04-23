@@ -1,6 +1,6 @@
 #PBS -S /bin/bash
 #PBS -q batch
-#PBS -N trim_align
+#PBS -N trim_align2
 #PBS -l nodes=1:ppn=10:rjsnode
 #PBS -l walltime=480:00:00
 #PBS -l mem=10gb
@@ -11,7 +11,7 @@ module load tophat/2.1.1
 module load python/2.7.8
 module load java/jdk1.8.0_20
 module load fastqc/0.11.4
-mkdir raw_QC trimmed_QC
+mkdir raw_QC trimmed_QC trimmed2_QC
 
 #Unpack fastqs
 echo "Unpacking fastq files"
@@ -28,9 +28,9 @@ else
   cat *.fastq > all.fastq
 
   #QC analysis raw data
-  echo "First QC analysis"
-  time fastqc --noextract -t 10 -a ../../../../misc/TruSeq.tsv \
-  -o ../../rnaseq/raw_QC all.fastq
+  #echo "First QC analysis"
+  #time fastqc --noextract -t 10 -a ../../../../misc/TruSeq.tsv \
+  #-o ../../rnaseq/raw_QC all.fastq
 
   #Trim data
   echo "Trimming data"
@@ -44,6 +44,19 @@ else
   time fastqc --noextract -t 10 -a ../../../../misc/TruSeq.tsv \
   -o ../../rnaseq/trimmed_QC trimmed.fastq
   cd ../../
+
+  echo "Additional trimming"
+  time /usr/local/apps/fastx/0.0.14/bin/fastx_trimmer -i trimmed.fastq \
+  -o tmp.fastq -f 10
+  time /usr/local/apps/fastx/0.0.14/bin/fastx_trimmer -i tmp.fastq \
+  -o trimmed2.fastq -t 1 -m 30
+  rm tmp.fastq
+
+  echo "Third QC analysis"
+  time fastqc --noextract -t 10 -a ../../../../misc/TruSeq.tsv \
+  -o ../../rnaseq/trimmed2_QC trimmed2.fastq
+  cd ../../
+
 fi
 
 #Align data
@@ -51,8 +64,8 @@ echo "Running tophat"
 cd rnaseq
 time tophat -F 0.1 --transcriptome-index ../../ref/transcriptome/Tguttata_v3.2.4 \
 --no-coverage-search --b2-very-sensitive --no-mixed --read-realign-edit-dist 0 \
--i 70 -M -I 500000 -p 10 --library-type fr-firststrand -o tophat \
-../../ref/bowtie2/Tguttata_v3.2.4 ../fastq/rnaseq/trimmed.fastq
+-i 70 -M -I 500000 -p 10 --library-type fr-firststrand -o tophat2 \
+../../ref/bowtie2/Tguttata_v3.2.4 ../fastq/rnaseq/trimmed2.fastq
 cd ../
 
 #Repackage everything

@@ -24,7 +24,8 @@ echo "Reverse complementing the paired end read"
 for i in *_R2_001.fastq
 do
   output=$(echo "$i" | sed s/.fastq/_rc.fastq/)
-  python /usr/local/apps/cutadapt/1.9.dev1/bin/cutadapt -a AGATCGGAAGAGCGTCGTGTAGGGA -o tmp.fastq "$i"
+  python /usr/local/apps/cutadapt/1.9.dev1/bin/cutadapt -m 30 \
+  -a AGATCGGAAGAGCGTCGTGTAGGGA -o tmp.fastq "$i"
   time /usr/local/apps/fastx/0.0.14/bin/fastx_reverse_complement -i tmp.fastq -o "$output"
   rm tmp.fastq
   gzip "$i"
@@ -35,7 +36,8 @@ cd ../../methylCseq
 echo "run methylpy"
 module load python/2.7.8
 python ../../../scripts/run_methylpy.py "$sample" "../fastq/methylCseq/*.fastq" \
-"../../ref/methylCseq/Tguttata_v3.2.4" "10" "9" "ChrL" > reports/"$sample"_output.txt
+"../../ref/methylCseq/Tguttata_v3.2.4" "10" "9" "AGATCGGAAGAGCACACGTCTGAAC" \
+"ChrL" > reports/"$sample"_output.txt
 
 #Format allc files
 echo "Formatting allc files"

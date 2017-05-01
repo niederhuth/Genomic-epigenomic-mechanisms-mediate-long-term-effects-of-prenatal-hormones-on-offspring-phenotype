@@ -18,6 +18,14 @@ def expand_nucleotide_code(mc_type=["C"]):
         mc_type.extend(["CG", "CHG", "CHH","CNN"])
     if "CG" in mc_type:
         mc_type.extend(["CGN"])
+    if "CH" in mc_type:
+        mc_type.extend(["CHN"])
+    if "CA" in mc_type:
+        mc_type.extend(["CAN"])
+    if "CT" in mc_type:
+        mc_type.extend(["CTN"])
+    if "CC" in mc_type:
+        mc_type.extend(["CCN"])
     return mc_type
 
 #filter allc file based on sequence context
@@ -53,9 +61,9 @@ def chr_filter(x,chr):
 
 #generic function for calculating methylation levels in windows
 def window_methylation_levels(m,cutoff=0,filter=0.5,nuc_bed=()):
-    a = pd.DataFrame(columns=['window','mCG','mCHG','mCHH'])
+    a = pd.DataFrame(columns=['window','mCG','mCH'])
     name = "none"
-    CG = mCG = CHG = mCHG = CHH = mCHH = 0
+    CG = mCG = CH = mCH = 0
     if nuc_bed:
         nuc = pd.read_table(nuc_bed.fn, usecols = [3,7,8])
         m = pd.merge(m,nuc,left_on=13,right_on='4_usercol')
@@ -65,114 +73,71 @@ def window_methylation_levels(m,cutoff=0,filter=0.5,nuc_bed=()):
         if nuc_bed:
             GC = int(c[7]) + int(c[8])
         if int(c[3]) >= int(cutoff):
-          if c[1].startswith("CN") or c[1].endswith("N"):
+          if c[1].startswith("CN"):
             continue
           elif c[1].startswith("CG"):
             CG = CG + int(c[3])
             mCG = mCG + int(c[2])
-          elif c[1].endswith("G"):
-            CHG = CHG + int(c[3])
-            mCHG = mCHG + int(c[2])
           else:
-            CHH = CHH + int(c[3])
-            mCHH = mCHH + int(c[2])
+            CH = CH + int(c[3])
+            mCH = mHH + int(c[2])
       elif c[5] != name:
         if nuc_bed:
-            if ((CG + CHG + CHH)/GC) >= filter:
-                a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCHG':(np.float64(mCHG)/np.float64(CHG)), 'mCHH':(np.float64(mCHH)/np.float64(CHH))}, ignore_index=True)
+            if ((CG + CH)/GC) >= filter:
+                a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH)), ignore_index=True)
         else:
-            a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCHG':(np.float64(mCHG)/np.float64(CHG)), 'mCHH':(np.float64(mCHH)/np.float64(CHH))}, ignore_index=True)
+            a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH)), ignore_index=True)
         name = c[5]
         if nuc_bed:
             GC = int(c[7]) + int(c[8])
-        CG = mCG = CHG = mCHG = CHH = mCHH = 0
+        CG = mCG = CH = mCH = 0
         if int(c[3]) >= int(cutoff):
-            if c[1].startswith("CN") or c[1].endswith("N"):
+            if c[1].startswith("CN"):
               continue
             elif c[1].startswith("CG"):
               CG = CG + int(c[3])
               mCG = mCG + int(c[2])
-            elif c[1].endswith("G"):
-              CHG = CHG + int(c[3])
-              mCHG = mCHG + int(c[2])
             else:
-              CHH = CHH + int(c[3])
-              mCHH = mCHH + int(c[2])
+              CH = CH + int(c[3])
+              mCH = mCH + int(c[2])
       elif c[5] == name:
         if int(c[3]) >= int(cutoff):
-          if c[1].startswith("CN") or c[1].endswith("N"):
+          if c[1].startswith("CN"):
             continue
           elif c[1].startswith("CG"):
             CG = CG + int(c[3])
             mCG = mCG + int(c[2])
-          elif c[1].endswith("G"):
-            CHG = CHG + int(c[3])
-            mCHG = mCHG + int(c[2])
           else:
-            CHH = CHH + int(c[3])
-            mCHH = mCHH + int(c[2])
+            CH = CH + int(c[3])
+            mCH = mCH + int(c[2])
     if nuc_bed:
-        if ((CG + CHG + CHH)/GC) >= filter:
-            a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCHG':(np.float64(mCHG)/np.float64(CHG)), 'mCHH':(np.float64(mCHH)/np.float64(CHH))}, ignore_index=True)
+        if ((CG + CH)/GC) >= filter:
+            a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH)), ignore_index=True)
     else:
-        a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCHG':(np.float64(mCHG)/np.float64(CHG)), 'mCHH':(np.float64(mCHH)/np.float64(CHH))}, ignore_index=True)
+        a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH)), ignore_index=True)
     return a
-
-#get correlations of mC with genes
-def mC_distribution(genome_file,allc,gff_file,fasta,windows=100000,stepsize=50000,cutoff=0,filter=0.5,output_path=(),save_windows=False,return_windows=False):
-    w_bed = pbt.bedtool.BedTool.window_maker(pbt.BedTool(genome_file),g=genome_file,w=windows,s=stepsize,i='srcwinnum')
-    nuc = pbt.BedTool.nucleotide_content(w_bed,fasta)
-    mC_bed = allc2bed(allc)
-    gene_gff = pbt.BedTool(gff_file).filter(feat_filter,feature="gene")
-    gene_mapping = pbt.bedtool.BedTool.intersect(w_bed,gene_gff,wa=True)
-    g = pd.DataFrame.from_dict(Counter([(f[3]) for f in gene_mapping]), orient='index').reset_index()
-    g.columns=['window','genes']
-    allc_mapping = pbt.bedtool.BedTool.intersect(mC_bed,w_bed,wa=True,wb=True)
-    m = pd.read_table(allc_mapping.fn,header=None,usecols=[10,13,6,7,8])
-    m = m.sort_values(by = 13,ascending=True)
-    a = window_methylation_levels(m,cutoff,filter,nuc)
-    df = pd.merge(a,g,on='window')
-    correlations = pd.DataFrame(columns=['Context','r','p-value'])
-    corCG = pearsonr(df['mCG'],df['genes'])
-    correlations = correlations.append({'Context': 'mCG', 'r': corCG[0], 'p-value': corCG[1]}, ignore_index=True)
-    corCHG = pearsonr(df['mCHG'],df['genes'])
-    correlations = correlations.append({'Context': 'mCHG', 'r': corCHG[0], 'p-value': corCHG[1]}, ignore_index=True)
-    corCHH = pearsonr(df['mCHH'],df['genes'])
-    correlations = correlations.append({'Context': 'mCHH', 'r': corCHH[0], 'p-value': corCHH[1]}, ignore_index=True)
-    if output_path:
-        correlations.to_csv(output_path + "correlations.tsv", sep='\t', index=False)
-    if save_windows:
-        df.to_csv(output_path + "genome_windows_data.tsv", sep='\t', index=False)
-    if return_windows:
-        return df
-    else:
-        return correlations
 
 #get total weighted methylation
 def weighted_mC(allc, output=(), cutoff=0):
-    CG = mCG = CHG = mCHG = CHH = mCHH = CNN = mCNN = 0
+    CG = mCG = CH = mCH = CN = mCN = 0
     with open(allc) as f:
         next(f)
         for l in f:
             c = l.split('\t')
             if int(c[5]) >= int(cutoff):
-                if c[3].startswith("CG"):
+                if c[3].startswith("CN"):
+                    CN = CN + int(c[5])
+                    mCN = mCN + int(c[4])
+                elif c[3].startsswith("CG"):
                     CG = CG + int(c[5])
                     mCG = mCG + int(c[4])
-                elif c[3].endswith("G"):
-                    CHG = CHG + int(c[5])
-                    mCHG = mCHG + int(c[4])
-                elif c[3].startswith("CN") or c[3].endswith("N"):
-                    CNN = CNN + int(c[5])
-                    mCNN = mCNN + int(c[4])
                 else:
-                    CHH = CHH + int(c[5])
-                    mCHH = mCHH + int(c[4])
+                    CH = CH + int(c[5])
+                    mCH = mCH + int(c[4])
     a = pd.DataFrame(columns=['Context','Total','Methylated','Weighted_mC'])
     a = a.append({'Context': 'mCG', 'Total': CG, 'Methylated': mCG, 'Weighted_mC': (np.float64(mCG)/np.float64(CG))}, ignore_index=True)
-    a = a.append({'Context': 'mCHG', 'Total': CHG, 'Methylated': mCHG, 'Weighted_mC': (np.float64(mCHG)/np.float64(CHG))}, ignore_index=True)
-    a = a.append({'Context': 'mCHH', 'Total': CHH, 'Methylated': mCHH, 'Weighted_mC': (np.float64(mCHH)/np.float64(CHH))}, ignore_index=True)
-    a = a.append({'Context': 'mCNN', 'Total': CNN, 'Methylated': mCNN, 'Weighted_mC': (np.float64(mCNN)/np.float64(CNN))}, ignore_index=True)
+    a = a.append({'Context': 'mCH', 'Total': CH, 'Methylated': mCH, 'Weighted_mC': (np.float64(mCH)/np.float64(CH))}, ignore_index=True)
+    a = a.append({'Context': 'mCN', 'Total': CN, 'Methylated': mCN, 'Weighted_mC': (np.float64(mCN)/np.float64(CN))}, ignore_index=True)
     if output:
         a.to_csv(output, sep='\t', index=False)
     else:
@@ -189,7 +154,7 @@ def feature_metaplot(allc,features,genome_file,output=(),ignoreStrand=False,wind
         p_bed = a.filter(strand_filter,strand='+').filter(feat_filter,filter_features).filter(chr_filter,filter_chr).saveas('p_tmp')
         n_bed = a.filter(strand_filter,strand='-').filter(feat_filter,filter_features).filter(chr_filter,filter_chr).saveas('n_tmp')
     CG = mCG = CHG = mCHG = CHH = mCHH = 0
-    metaplot = pd.DataFrame(columns=['Bin','mCG','mCHG','mCHH'])
+    metaplot = pd.DataFrame(columns=['Bin','mCG','mCH'])
     for y in ['u','f','d']:
         if y == 'u':
             if ignoreStrand:
@@ -223,22 +188,18 @@ def feature_metaplot(allc,features,genome_file,output=(),ignoreStrand=False,wind
             for c in m.itertuples():
                 if c[4].endswith("_"+str(x)):
                     if int(c[3]) >= int(cutoff):
-                        if c[1].startswith("CN") or c[1].endswith("N"):
+                        if c[1].startswith("CN"):
                             continue
                         elif c[1].startswith("CG"):
                             CG = CG + int(c[3])
                             mCG = mCG + int(c[2])
-                        elif c[1].endswith("G"):
-                            CHG = CHG + int(c[3])
-                            mCHG = mCHG + int(c[2])
                         else:
-                            CHH = CHH + int(c[3])
-                            mCHH = mCHH + int(c[2])
+                            CH = CH + int(c[3])
+                            mCH = mCH + int(c[2])
             metaplot = metaplot.append({'Bin': counter,'mCG': (np.float64(mCG)/np.float64(CG)),
-                                        'mCHG': (np.float64(mCHG)/np.float64(CHG)),
-                                        'mCHH': (np.float64(mCHH)/np.float64(CHH))}, ignore_index=True)
+                                        'mCH': (np.float64(mCH)/np.float64(CH)), ignore_index=True)
             counter = counter + 1
-            CG = mCG = CHG = mCHG = CHH = mCHH = 0
+            CG = mCG = CH = mCH = 0
     os.remove('p_tmp')
     os.remove('n_tmp')
     if output:
@@ -246,8 +207,25 @@ def feature_metaplot(allc,features,genome_file,output=(),ignoreStrand=False,wind
     else:
         return metaplot
 
+#plot methylation levels for genes
+def gene_metaplot(allc,features,genome_file,output=(),ignoreStrand=False,windows=60,updown_stream=2000,cutoff=0,first_feature=(),second_feature=(),filter_chr=[]):
+    mC_bed = allc2bed(allc)
+    bed = pbt.BedTool(unique_genes).filter(feat_filter,first_feature).filter(chr_filter,filter_chr)
+    flank_bed = pbt.bedtool.BedTool.flank(bed,g=genome_file,l=2000,r=2000,s=True).saveas('f_tmp')
+    cds_bed = bed.filter(feat_filter,second_feature).filter(chr_filter,filter_chr).saveas('c_tmp')
+    bed = cds_bed.cat(flank_bed, postmerge=False)
+    mapping = pbt.bedtool.BedTool.intersect(mC_bed,bed,wa=True)
+    m = pd.read_table(mapping.fn, header=None, usecols = [0,1,5,6,7,8,9])
+    m.columns = ['chr','pos','strand','mc_class','mc_count','total','methylated']
+    m = m.drop_duplicates()
+    m.to_csv('CDS_allc.tmp', sep='\t', index=False)
+    feature_metaplot('CDS_allc.tmp',features,genome_file,output,ignoreStrand,
+                     windows,updown_stream,cutoff,first_feature,filter_chr)
+    for i in ['CDS_allc.tmp','c_tmp','f_tmp']:
+        os.remove(i)
+
 #output per-site methylation levels for mCs in each specified context
-def per_site_mC(allc,output_path,context=['CG','CHG','CHH']):
+def per_site_mC(allc,output_path,context=['CG','CH']):
     for i in context:
         a = filter_context(allc,[i])
         a = a[a['methylated'] == 1]
@@ -255,7 +233,7 @@ def per_site_mC(allc,output_path,context=['CG','CHG','CHH']):
         a.to_csv(output_path+i+'_site_methylation.txt', sep='\t', index=False)
 
 # count the subcontexts in fasta
-def count_subcontext_fasta(fasta,context=['CG','CHG','CHH'],output=(),filter_chr=[]):
+def count_subcontext_fasta(fasta,context=['CG','CH'],output=(),filter_chr=[]):
     df = pd.DataFrame(columns=['context','total_bases'])
     for c in context:
         count = 0
@@ -269,8 +247,8 @@ def count_subcontext_fasta(fasta,context=['CG','CHG','CHH'],output=(),filter_chr
     else:
         return df
 
-#
-def count_subcontext_allc(allc,context=['CG','CHG','CHH'],output=(),cutoff=3,filter_chr=[]):
+#Count up subcontext methylation
+def count_subcontext_allc(allc,context=['CG','CH'],output=(),cutoff=3,filter_chr=[]):
     a = pd.read_table(allc)
     df = pd.DataFrame(columns=['context','total_passed','methylated','weighted_mC'])
     for c in context:
@@ -289,8 +267,8 @@ def count_subcontext_allc(allc,context=['CG','CHG','CHH'],output=(),cutoff=3,fil
     else:
         return df
 
-#
-def subcontext_methylation(allc,fasta,context=['CG','CHG','CHH'],output=(),cutoff=3,filter_chr=[]):
+#Get subcontexts of genome and methylation
+def subcontext_methylation(allc,fasta,context=['CG','CH'],output=(),cutoff=3,filter_chr=[]):
     a = count_subcontext_fasta(fasta,context,output=(),filter_chr=filter_chr)
     b = count_subcontext_allc(allc,context,output=(),cutoff=3,filter_chr=filter_chr)
     df = pd.merge(a,b,on='context')

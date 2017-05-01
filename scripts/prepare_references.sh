@@ -42,7 +42,7 @@ gunzip Taeniopygia_guttata.taeGut3.2.4.88.gff3.gz
 sed s/_random/random/g Taeniopygia_guttata.taeGut3.2.4.88.gff3 > tmp
 gzip Taeniopygia_guttata.taeGut3.2.4.88.gff3
 grep biotype=processed_pseudogene tmp > tmp2
-grep -v -f tmp2 tmp | awk '$1 != "MT"' tmp | awk '$3 == "gene",/###/' > Tguttata_v3.2.4.gff
+fgrep -v -f tmp2 tmp | awk '$1 != "MT"' | awk '$3 == "gene",/###/' > Tguttata_v3.2.4.gff
 awk '$3 == "chromosome" && $1 == "MT"' tmp > Tguttata_v3.2.4_mask.gff
 fgrep -v -f Tguttata_v3.2.4.gff tmp | grep -v \# | awk '$3 != "biological_region" && $3 != "chromosome"' >> Tguttata_v3.2.4_mask.gff
 rm tmp tmp2

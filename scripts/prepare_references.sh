@@ -47,7 +47,7 @@ awk '$3 == "chromosome" && $1 == "MT"' tmp > Tguttata_v3.2.4_mask.gff
 fgrep -v -f Tguttata_v3.2.4.gff tmp | grep -v \# | awk '$3 != "biological_region" && $3 != "chromosome"' >> Tguttata_v3.2.4_mask.gff
 rm tmp tmp2
 time /usr/local/apps/cufflinks/2.2.1/bin/gffread Tguttata_v3.2.4.gff -T -o Tguttata_v3.2.4.gtf
-#time ../../../scripts/cuffdiff_gtf_attributes --input=Tguttata_v3.2.4.gtf --output=Tguttata_v3.2.4_fixed.gtf
+time ../../../scripts/cuffdiff_gtf_attributes --input=Tguttata_v3.2.4.gtf --output=Tguttata_v3.2.4_fixed.gtf
 cd ../
 
 #Prepare transcriptome index

@@ -84,9 +84,9 @@ def window_methylation_levels(m,cutoff=0,filter=0.5,nuc_bed=()):
       elif c[5] != name:
         if nuc_bed:
             if ((CG + CH)/GC) >= filter:
-                a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH)), ignore_index=True)
+                a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH))}, ignore_index=True)
         else:
-            a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH)), ignore_index=True)
+            a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH))}, ignore_index=True)
         name = c[5]
         if nuc_bed:
             GC = int(c[7]) + int(c[8])
@@ -112,9 +112,9 @@ def window_methylation_levels(m,cutoff=0,filter=0.5,nuc_bed=()):
             mCH = mCH + int(c[2])
     if nuc_bed:
         if ((CG + CH)/GC) >= filter:
-            a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH)), ignore_index=True)
+            a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH))}, ignore_index=True)
     else:
-        a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH)), ignore_index=True)
+        a = a.append({'window':str(name), 'mCG':(np.float64(mCG)/np.float64(CG)), 'mCH':(np.float64(mCH)/np.float64(CH))}, ignore_index=True)
     return a
 
 #get total weighted methylation
@@ -197,7 +197,7 @@ def feature_metaplot(allc,features,genome_file,output=(),ignoreStrand=False,wind
                             CH = CH + int(c[3])
                             mCH = mCH + int(c[2])
             metaplot = metaplot.append({'Bin': counter,'mCG': (np.float64(mCG)/np.float64(CG)),
-                                        'mCH': (np.float64(mCH)/np.float64(CH)), ignore_index=True)
+                                        'mCH': (np.float64(mCH)/np.float64(CH))}, ignore_index=True)
             counter = counter + 1
             CG = mCG = CH = mCH = 0
     os.remove('p_tmp')

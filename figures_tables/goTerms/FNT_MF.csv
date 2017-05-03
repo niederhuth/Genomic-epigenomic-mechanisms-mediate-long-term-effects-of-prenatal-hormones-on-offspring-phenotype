@@ -1,0 +1,22 @@
+GO.ID,Term,Annotated,Significant,Expected,Fisher
+GO:0005509,calcium ion binding,436,16,6.37,0.00062
+GO:0001067,regulatory region nucleic acid binding,199,6,2.91,0.00159
+GO:0022803,passive transmembrane transporter activi...,287,10,4.19,0.00167
+GO:0048038,quinone binding,6,2,0.09,0.00186
+GO:0004714,transmembrane receptor protein tyrosine ...,44,4,0.64,0.00248
+GO:0003690,double-stranded DNA binding,130,6,1.9,0.00258
+GO:0001228,transcriptional activator activity, RNA ...,39,5,0.57,0.00266
+GO:0016901,oxidoreductase activity, acting on the C...,3,2,0.04,0.00290
+GO:1990837,sequence-specific double-stranded DNA bi...,103,6,1.5,0.00311
+GO:0016491,oxidoreductase activity,549,15,8.02,0.00330
+GO:0030594,neurotransmitter receptor activity,40,4,0.58,0.00344
+GO:0043178,alcohol binding,13,2,0.19,0.00349
+GO:0003677,DNA binding,1055,13,15.41,0.00365
+GO:0022834,ligand-gated channel activity,90,6,1.31,0.00419
+GO:0034481,chondroitin sulfotransferase activity,4,2,0.06,0.00532
+GO:0001537,N-acetylgalactosamine 4-O-sulfotransfera...,4,2,0.06,0.00532
+GO:0019199,transmembrane receptor protein kinase ac...,61,4,0.89,0.00714
+GO:0051015,actin filament binding,30,4,0.44,0.00725
+GO:0022835,transmitter-gated channel activity,23,3,0.34,0.00822
+GO:0016520,growth hormone-releasing hormone recepto...,2,1,0.03,0.00890
+GO:0008307,structural constituent of muscle,7,2,0.1,0.00943

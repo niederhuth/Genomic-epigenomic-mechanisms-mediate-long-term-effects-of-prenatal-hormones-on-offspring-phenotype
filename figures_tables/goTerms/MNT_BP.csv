@@ -1,0 +1,18 @@
+GO.ID,Term,Annotated,Significant,Expected,Fisher
+GO:0048525,negative regulation of viral process,8,2,0.05,0.0017
+GO:0044707,single-multicellular organism process,829,13,4.74,0.0018
+GO:0001709,cell fate determination,7,2,0.04,0.0019
+GO:0051704,multi-organism process,104,4,0.6,0.0029
+GO:0007272,ensheathment of neurons,12,2,0.07,0.0029
+GO:0010628,positive regulation of gene expression,631,9,3.61,0.0030
+GO:0032502,developmental process,908,12,5.2,0.0044
+GO:0060341,regulation of cellular localization,153,4,0.88,0.0044
+GO:0032501,multicellular organismal process,1058,13,6.05,0.0055
+GO:0065007,biological regulation,4461,35,25.53,0.0060
+GO:0050789,regulation of biological process,4286,34,24.52,0.0061
+GO:0040037,negative regulation of fibroblast growth...,8,2,0.05,0.0064
+GO:0032387,negative regulation of intracellular tra...,28,2,0.16,0.0066
+GO:0031056,regulation of histone modification,32,2,0.18,0.0070
+GO:0040019,positive regulation of embryonic develop...,17,2,0.1,0.0084
+GO:1902275,regulation of chromatin organization,38,2,0.22,0.0087
+GO:0001759,organ induction,17,2,0.1,0.0092

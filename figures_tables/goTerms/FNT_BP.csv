@@ -1,0 +1,38 @@
+GO.ID,Term,Annotated,Significant,Expected,Fisher
+GO:0006029,proteoglycan metabolic process,31,6,0.51,0.00014
+GO:0070314,G1 to G0 transition,3,2,0.05,0.00031
+GO:0040036,regulation of fibroblast growth factor r...,14,4,0.23,0.00031
+GO:0050748,negative regulation of lipoprotein metab...,3,2,0.05,0.00054
+GO:0050654,chondroitin sulfate proteoglycan metabol...,16,5,0.26,0.00075
+GO:0045935,positive regulation of nucleobase-contai...,622,14,10.2,0.00129
+GO:0010628,positive regulation of gene expression,631,17,10.35,0.00130
+GO:0090287,regulation of cellular response to growt...,94,7,1.54,0.00140
+GO:0050746,regulation of lipoprotein metabolic proc...,4,2,0.07,0.00164
+GO:0009100,glycoprotein metabolic process,127,6,2.08,0.00287
+GO:0030204,chondroitin sulfate metabolic process,13,4,0.21,0.00298
+GO:0007010,cytoskeleton organization,365,11,5.98,0.00311
+GO:0006023,aminoglycan biosynthetic process,22,3,0.36,0.00316
+GO:0044699,single-organism process,5533,107,90.71,0.00326
+GO:0010035,response to inorganic substance,80,7,1.31,0.00368
+GO:0006790,sulfur compound metabolic process,83,5,1.36,0.00385
+GO:0031099,regeneration,4,2,0.07,0.00397
+GO:0055075,potassium ion homeostasis,3,2,0.05,0.00401
+GO:0040007,growth,264,11,4.33,0.00404
+GO:0010646,regulation of cell communication,940,28,15.41,0.00421
+GO:0022610,biological adhesion,430,15,7.05,0.00455
+GO:0030166,proteoglycan biosynthetic process,18,4,0.3,0.00456
+GO:0045599,negative regulation of fat cell differen...,22,3,0.36,0.00462
+GO:0044744,protein targeting to nucleus,98,5,1.61,0.00474
+GO:0023051,regulation of signaling,949,28,15.56,0.00506
+GO:0044344,cellular response to fibroblast growth f...,39,5,0.64,0.00543
+GO:0042246,tissue regeneration,4,2,0.07,0.00620
+GO:0070201,regulation of establishment of protein l...,158,7,2.59,0.00656
+GO:0071774,response to fibroblast growth factor,39,5,0.64,0.00663
+GO:1903530,regulation of secretion by cell,126,7,2.07,0.00676
+GO:0042445,hormone metabolic process,52,4,0.85,0.00735
+GO:0044763,single-organism cellular process,4776,91,78.3,0.00746
+GO:0033002,muscle cell proliferation,43,4,0.7,0.00790
+GO:0008589,regulation of smoothened signaling pathw...,32,4,0.52,0.00795
+GO:0051049,regulation of transport,400,14,6.56,0.00808
+GO:0007267,cell-cell signaling,351,14,5.75,0.00908
+GO:0044272,sulfur compound biosynthetic process,32,3,0.52,0.00990

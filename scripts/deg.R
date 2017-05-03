@@ -99,14 +99,39 @@ write.table(sig,"../../figures_tables/sig_genes.tsv",quote=F,sep="\t",row.names=
 path <- c("../../figures_tables/sig_genes/")
 ifelse(!dir.exists(path),
 dir.create(path), FALSE)
+for(gene in sig$id){
+    x <- plotCounts(dds, gene, intgroup = "condition", normalized = TRUE,
+                    transform = FALSE, returnData = TRUE)
+    x$order <- rep(c(1,2,3,4,5,6,7,8), each = 3)
+    p <- ggplot(x, aes(x = reorder(condition,order), y = count)) +
+                geom_jitter(aes(color=condition), size = 4) +
+                theme(panel.background=element_blank(),
+                axis.line=element_line(color="black"),
+                axis.text=element_text(color="black"),
+                axis.title=element_text(color="black",face="bold"),
+                legend.position="none") + xlab("Sample")
+    ggsave(paste(path,gene,"_counts.pdf",sep=""), p, width=5, height=4)
+}
+
+path <- c("../../figures_tables/genes_of_interest/")
+ifelse(!dir.exists(path),
+dir.create(path), FALSE)
+gof <- read.csv("../../misc/gof.txt")
 for(gene in gof$gene){
     x <- plotCounts(dds, gene, intgroup = "condition", normalized = TRUE,
                     transform = FALSE, returnData = TRUE)
-    p <- ggplot(x, aes(x = condition, y = count)) + geom_jitter(aes(color=condition)) +
-         theme(panel.background=element_blank(),
-               axis.line=element_line(color="black"),
-               axis.text=element_text(color="black"),
-               axis.title=element_text(color="black",face="bold"),
-               legend.position="none")
+    x$order <- rep(c(1,2,3,4,5,6,7,8), each = 3)
+    p <- ggplot(x, aes(x = reorder(condition,order), y = count)) +
+                geom_jitter(aes(color=condition), size = 4) +
+                theme(panel.background=element_blank(),
+                axis.line=element_line(color="black"),
+                axis.text=element_text(color="black"),
+                axis.title=element_text(color="black",face="bold"),
+                legend.position="none") + xlab("Sample")
     ggsave(paste(path,gene,"_counts.pdf",sep=""), p, width=5, height=4)
 }
+
+FHsig <- sig[sig$sampleA == "FCH" & sig$sampleB == "FTH",]
+FNTsig <- sig[sig$sampleA == "FCNT" & sig$sampleB == "FTNT",]
+MHsig <- sig[sig$sampleA == "MCH" & sig$sampleB == "MTH",]
+MNTsig <- sig[sig$sampleA == "MCNT" & sig$sampleB == "MTNT",]

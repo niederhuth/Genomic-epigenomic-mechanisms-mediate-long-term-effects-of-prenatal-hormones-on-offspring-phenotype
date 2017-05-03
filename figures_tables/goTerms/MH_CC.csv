@@ -1,0 +1,25 @@
+GO.ID,Term,Annotated,Significant,Expected,Fisher
+GO:0043235,receptor complex,77,11,3.24,0.00012
+GO:0042995,cell projection,380,31,15.99,0.00012
+GO:0030054,cell junction,257,24,10.81,0.00020
+GO:0098794,postsynapse,93,12,3.91,0.00032
+GO:0044297,cell body,83,11,3.49,0.00045
+GO:0009986,cell surface,212,19,8.92,0.00085
+GO:1990351,transporter complex,111,12,4.67,0.00085
+GO:0044437,vacuolar part,63,8,2.65,0.00095
+GO:0043209,myelin sheath,13,4,0.55,0.00137
+GO:0016459,myosin complex,54,7,2.27,0.00287
+GO:0030427,site of polarized growth,26,5,1.09,0.00333
+GO:0098636,protein complex involved in cell adhesio...,17,4,0.72,0.00349
+GO:0098797,plasma membrane protein complex,230,26,9.68,0.00364
+GO:0005783,endoplasmic reticulum,380,23,15.99,0.00365
+GO:0044463,cell projection part,142,13,5.98,0.00457
+GO:0016023,cytoplasmic, membrane-bounded vesicle,225,16,9.47,0.00478
+GO:0005887,integral component of plasma membrane,245,25,10.31,0.00533
+GO:0031226,intrinsic component of plasma membrane,262,26,11.03,0.00607
+GO:0031982,vesicle,272,17,11.45,0.00632
+GO:0005774,vacuolar membrane,62,8,2.61,0.00648
+GO:0043005,neuron projection,176,23,7.41,0.00711
+GO:0097708,intracellular vesicle,251,17,10.56,0.00750
+GO:0043234,protein complex,1528,60,64.3,0.00830
+GO:0031312,extrinsic component of organelle membran...,6,2,0.25,0.00971

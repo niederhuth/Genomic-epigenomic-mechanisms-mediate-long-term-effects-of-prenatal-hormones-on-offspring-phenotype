@@ -128,7 +128,7 @@ def weighted_mC(allc, output=(), cutoff=0):
                 if c[3].startswith("CN"):
                     CN = CN + int(c[5])
                     mCN = mCN + int(c[4])
-                elif c[3].startsswith("CG"):
+                elif c[3].startswith("CG"):
                     CG = CG + int(c[5])
                     mCG = mCG + int(c[4])
                 else:
@@ -153,7 +153,7 @@ def feature_metaplot(allc,features,genome_file,output=(),ignoreStrand=False,wind
     else:
         p_bed = a.filter(strand_filter,strand='+').filter(feat_filter,filter_features).filter(chr_filter,filter_chr).saveas('p_tmp')
         n_bed = a.filter(strand_filter,strand='-').filter(feat_filter,filter_features).filter(chr_filter,filter_chr).saveas('n_tmp')
-    CG = mCG = CHG = mCHG = CHH = mCHH = 0
+    CG = mCG = CH = mCH = 0
     metaplot = pd.DataFrame(columns=['Bin','mCG','mCH'])
     for y in ['u','f','d']:
         if y == 'u':
@@ -208,9 +208,9 @@ def feature_metaplot(allc,features,genome_file,output=(),ignoreStrand=False,wind
         return metaplot
 
 #plot methylation levels for genes
-def gene_metaplot(allc,features,genome_file,output=(),ignoreStrand=False,windows=60,updown_stream=2000,cutoff=0,first_feature=(),second_feature=(),filter_chr=[]):
+def gene_metaplot(allc,features,genome_file,output=(),ignoreStrand=False,windows=60,updown_stream=2000,cutoff=0,first_feature=(),second_feature=(),filter_chr=[],remove_tmp=True):
     mC_bed = allc2bed(allc)
-    bed = pbt.BedTool(unique_genes).filter(feat_filter,first_feature).filter(chr_filter,filter_chr)
+    bed = pbt.BedTool(features).filter(feat_filter,first_feature).filter(chr_filter,filter_chr)
     flank_bed = pbt.bedtool.BedTool.flank(bed,g=genome_file,l=2000,r=2000,s=True).saveas('f_tmp')
     cds_bed = bed.filter(feat_filter,second_feature).filter(chr_filter,filter_chr).saveas('c_tmp')
     bed = cds_bed.cat(flank_bed, postmerge=False)
@@ -221,8 +221,12 @@ def gene_metaplot(allc,features,genome_file,output=(),ignoreStrand=False,windows
     m.to_csv('CDS_allc.tmp', sep='\t', index=False)
     feature_metaplot('CDS_allc.tmp',features,genome_file,output,ignoreStrand,
                      windows,updown_stream,cutoff,first_feature,filter_chr)
-    for i in ['CDS_allc.tmp','c_tmp','f_tmp']:
-        os.remove(i)
+    if remove_tmp:
+        for i in ['CDS_allc.tmp','c_tmp','f_tmp']:
+            os.remove(i)
+    else:
+        for i in ['c_tmp','f_tmp']:
+            os.remove(i)
 
 #output per-site methylation levels for mCs in each specified context
 def per_site_mC(allc,output_path,context=['CG','CH']):

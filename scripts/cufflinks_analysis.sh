@@ -57,6 +57,65 @@ MNT <- sig[sig$sample_1 == "MCNT" & sig$sample_2 == "MTNT",]
 #write.table(total,"../../figures_table/.tsv",quote=F,sep="\t",row.names=F)
 write.table(sig,"../../figures_tables/sig_genes.tsv",quote=F,sep="\t",row.names=F)
 
+#heatmaps
+path <- c("../../figures_tables/")
+
+myGeneIds<-gsub("ENS","gene:ENS",FH$gene_id)
+myGenes<-getGenes(cuff,myGeneIds,sampleIdList=c("FCH","FTH"))
+myGenes@repFpkm$gene_id <- gsub("gene:","",myGenes@repFpkm$gene_id)
+myGenes@repFpkm$rep_name <- gsub("FCH_0","FCH1",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("FCH_1","FCH2",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("FCH_2","FCH3",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("FTH_0","FTH1",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("FTH_1","FTH2",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("FTH_2","FTH3",myGenes@repFpkm$rep_name)
+htmp <- csHeatmap(myGenes,cluster='row',labRow=T,replicates=T,
+heatscale=c("blue","white","red"),fullnames=F) +
+theme(axis.text.x = element_text(size=10),axis.text.y = element_text(size=3))
+ggsave(paste(path,"FH_diff_exp_heatmap.pdf",sep=""), htmp, width=6, height=4)
+
+myGeneIds<-gsub("ENS","gene:ENS",FNT$gene_id)
+myGenes<-getGenes(cuff,myGeneIds,sampleIdList=c("FCNT","FTNT"))
+myGenes@repFpkm$gene_id <- gsub("gene:","",myGenes@repFpkm$gene_id)
+myGenes@repFpkm$rep_name <- gsub("FCNT_0","FCNT1",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("FCNT_1","FCNT2",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("FCNT_2","FCNT3",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("FTNT_0","FTNT1",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("FTNT_1","FTNT2",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("FTNT_2","FTNT3",myGenes@repFpkm$rep_name)
+htmp <- csHeatmap(myGenes,cluster='row',labRow=T,replicates=T,
+heatscale=c("blue","white","red"),fullnames=F) +
+theme(axis.text.x = element_text(size=10),axis.text.y = element_text(size=3))
+ggsave(paste(path,"FNT_diff_exp_heatmap.pdf",sep=""), htmp, width=6, height=4)
+
+myGeneIds<-gsub("ENS","gene:ENS",MH$gene_id)
+myGenes<-getGenes(cuff,myGeneIds,sampleIdList=c("MCH","MTH"))
+myGenes@repFpkm$gene_id <- gsub("gene:","",myGenes@repFpkm$gene_id)
+myGenes@repFpkm$rep_name <- gsub("MCH_0","MCH1",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("MCH_1","MCH2",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("MCH_2","MCH3",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("MTH_0","MTH1",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("MTH_1","MTH2",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("MTH_2","MTH3",myGenes@repFpkm$rep_name)
+htmp <- csHeatmap(myGenes,cluster='row',labRow=T,replicates=T,
+heatscale=c("blue","white","red"),fullnames=F) +
+theme(axis.text.x = element_text(size=10),axis.text.y = element_text(size=3))
+ggsave(paste(path,"MH_diff_exp_heatmap.pdf",sep=""), htmp, width=6, height=4)
+
+myGeneIds<-gsub("ENS","gene:ENS",MNT$gene_id)
+myGenes<-getGenes(cuff,myGeneIds,sampleIdList=c("MCNT","MTNT"))
+myGenes@repFpkm$gene_id <- gsub("gene:","",myGenes@repFpkm$gene_id)
+myGenes@repFpkm$rep_name <- gsub("MCNT_0","MCNT1",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("MCNT_1","MCNT2",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("MCNT_2","MCNT3",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("MTNT_0","MTNT1",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("MTNT_1","MTNT2",myGenes@repFpkm$rep_name)
+myGenes@repFpkm$rep_name <- gsub("MTNT_2","MTNT3",myGenes@repFpkm$rep_name)
+htmp <- csHeatmap(myGenes,cluster='row',labRow=T,replicates=T,
+heatscale=c("blue","white","red"),fullnames=F) +
+theme(axis.text.x = element_text(size=10),axis.text.y = element_text(size=3))
+ggsave(paste(path,"MNT_diff_exp_heatmap.pdf",sep=""), htmp, width=6, height=4)
+
 #venn
 d <- data.frame(gene_id=unique(sig$gene_id))
 d <- data.frame(gene_id=d$gene_id,FH=ifelse(d$gene_id %in% sig[sig$sample_1 == "FCH" & sig$sample_2 == "FTH",]$gene_id, 1, 0),

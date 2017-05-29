@@ -164,14 +164,14 @@ FNTgotest <- topGO(FNTgo,goTerms,nodeSize=0,"FNT",writeData=TRUE)
 MHgotest <- topGO(MHgo,goTerms,nodeSize=0,"MH",writeData=TRUE)
 MNTgotest <- topGO(MNTgo,goTerms,nodeSize=5,"MNT",writeData=TRUE)
 
-#gof
+#goi
 path <- c("../../figures_tables/genes_of_interest/")
 ifelse(!dir.exists(path),
 dir.create(path), FALSE)
-gof <- read.csv("../../misc/gof.txt")
+goi <- read.csv("../../misc/goi.txt")
 fpkm <- read.table("cuffdiff_all2/fpkm.tsv",header=T,sep="\t",row.names=1)
 row.names(fpkm) <- gsub("gene:","",row.names(fpkm))
-for(gene in gof$gene){
+for(gene in goi$gene){
     x <- data.frame(t(fpkm[row.names(fpkm) == gene,]),
     condition = rep(c("FCH","FTH","FCNT","FTNT","MCH","MTH","MCNT","MTNT"),each = 3),
     order = rep(c(1,2,3,4,5,6,7,8), each = 3))

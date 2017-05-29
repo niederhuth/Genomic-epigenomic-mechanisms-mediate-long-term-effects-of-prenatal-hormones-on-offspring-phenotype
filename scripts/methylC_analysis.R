@@ -11,8 +11,7 @@ if (length(args)==0) {
 plot_features <- function(df){
   require(ggplot2)
   ggplot(df, aes(x=Bin)) + geom_line(aes(y=mCG), color="dodgerblue4", size=0.8) +
-         geom_line(aes(y=mCHG), color="olivedrab", size=0.8) +
-         geom_line(aes(y=mCHH), color="hotpink4", size=0.8) +
+         geom_line(aes(y=mCH), color="hotpink4", size=0.8) +
          theme(panel.background=element_blank(), panel.grid=element_blank(),
          axis.text.y=element_text(color="black"), axis.text.x=element_text(color="black"),
          axis.ticks=element_line(color="black"), axis.title=element_text(color="black"),

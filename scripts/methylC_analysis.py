@@ -14,7 +14,7 @@ genome_file="../../ref/bowtie2/Tguttata_v3.2.4.genome"
 genes_gff="../../ref/misc/Tguttata_v3.2.4.gff"
 diff_exp="results/diff_exp.gff"
 no_diff_exp="results/no_diff_exp.gff"
-gof="../../ref/misc/gof.gff"
+goi="../../ref/misc/gof.gff"
 filter_chr=['MT','ChrL']
 context=['CG','CH','CA','CT','CC']
 
@@ -46,11 +46,18 @@ if os.path.exists(no_diff_exp):
 else:
     print("No gene annotations found")
 
-if os.path.exists(gof):
+if os.path.exists(goi):
     print("Gene of interest metaplot")
-    functions.feature_metaplot('CDS_allc.tmp',gof,genome_file,output="results/no_diff_exp_metaplot.tsv",
+    functions.feature_metaplot('CDS_allc.tmp',goi,genome_file,output="results/goi_metaplot.tsv",
                             ignoreStrand=False,windows=60,updown_stream=2000,cutoff=0,
                             filter_features='gene',filter_chr=filter_chr)
+else:
+    print("No gene annotations found")
+
+if os.path.exists(genes_gff):
+    print("Gene methylation levels")
+    functions.feature_mC_levels('CDS_allc.tmp',genes_gff,output="results/gene_methylation_levels.tsv",
+                                cutoff=0,filter_features='gene',filter_chr=filter_chr)
 else:
     print("No gene annotations found")
 

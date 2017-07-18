@@ -1,0 +1,3 @@
+GO.ID,Term,Annotated,Significant,Expected,Fisher
+GO:0005509,calcium ion binding,436,6,2.38,0.0050
+GO:0002020,protease binding,23,2,0.13,0.0054

@@ -1,0 +1,6 @@
+GO.ID,Term,Annotated,Significant,Expected,Fisher
+GO:0043292,contractile fiber,68,6,1.03,0.00017
+GO:0044449,contractile fiber part,54,5,0.82,0.00028
+GO:0016020,membrane,3516,70,53.42,0.00262
+GO:0044425,membrane part,2441,51,37.09,0.00581
+GO:0005922,connexin complex,20,4,0.3,0.00852

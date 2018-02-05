@@ -1,6 +1,5 @@
-#!/usr/local/apps/python/2.7.8/bin/python
-
-import sys, getopt
+import sys
+import getopt
 from Bio import SeqIO
 
 def main(argv):
@@ -9,11 +8,11 @@ def main(argv):
    try:
       opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
    except getopt.GetoptError:
-      print 'fix_fasta.py -i <inputfile> -o <outputfile>'
+      print('fix_fasta.py -i <inputfile> -o <outputfile>')
       sys.exit(2)
    for opt, arg in opts:
       if opt == '-h':
-         print 'fix_fasta.py -i <inputfile> -o <outputfile>'
+         print('fix_fasta.py -i <inputfile> -o <outputfile>')
          sys.exit()
       elif opt in ("-i", "--ifile"):
          inputfile = arg

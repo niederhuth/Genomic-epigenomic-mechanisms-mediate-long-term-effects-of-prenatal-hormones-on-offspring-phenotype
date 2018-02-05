@@ -1,0 +1,25 @@
+Sample,Bird_ID,Sex,Treatment,Tissue,Name,Group
+1,2867,male,Testosterone,Hypothalamus,MTH1,MTH
+2,2932,male,Testosterone,Hypothalamus,MTH2,MTH
+3,2904,male,Testosterone,Hypothalamus,MTH3,MTH
+4,2866,female,Testosterone,Hypothalamus,FTH1,FTH
+5,2916,female,Testosterone,Hypothalamus,FTH2,FTH
+6,2942,female,Testosterone,Hypothalamus,FTH3,FTH
+7,2867,male,Testosterone,Nucleus taeniae,MTNT1,MTNT
+8,2932,male,Testosterone,Nucleus taeniae,MTNT2,MTNT
+9,2904,male,Testosterone,Nucleus taeniae,MTNT3,MTNT
+10,2866,female,Testosterone,Nucleus taeniae,FTNT1,FTNT
+11,2916,female,Testosterone,Nucleus taeniae,FTNT2,FTNT
+12,2942,female,Testosterone,Nucleus taeniae,FTNT3,FTNT
+13,2908,male,Control,Hypothalamus,MCH1,MCH
+14,2883,male,Control,Hypothalamus,MCH2,MCH
+15,2894,male,Control,Hypothalamus,MCH3,MCH
+16,2900,female,Control,Hypothalamus,FCH1,FCH
+17,2903,female,Control,Hypothalamus,FCH2,FCH
+18,2875,female,Control,Hypothalamus,FCH3,FCH
+19,2908,male,Control,Nucleus taeniae,MCNT1,MCNT
+20,2883,male,Control,Nucleus taeniae,MCNT2,MCNT
+21,2894,male,Control,Nucleus taeniae,MCNT3,MCNT
+22,2900,female,Control,Nucleus taeniae,FCNT1,FCNT
+23,2903,female,Control,Nucleus taeniae,FCNT2,FCNT
+24,2875,female,Control,Nucleus taeniae,FCNT3,FCNT

@@ -20,25 +20,25 @@ gff='Taeniopygia_guttata.taeGut3.2.4.91.gff3'
 gff_url='ftp://ftp.ensembl.org/pub/release-91/gff3/taeniopygia_guttata/Taeniopygia_guttata.taeGut3.2.4.91.gff3.gz'
 
 #Download genome
-curl $genome_url > $genome.gz
-curl $gff_url > $gff
-mv $gff ../annotations/
+#curl $genome_url > $genome.gz
+#curl $gff_url > $gff
+#mv $gff ../annotations/
 
 #Prep genome
-gunzip $genome.gz -c > $name.fa
-samtools faidx $name.fa
-gunzip ../../../misc/ChrL.fa.gz -c > ChrL.fa
-cat $name.fa ChrL.fa > ../methylCseq/tmp
-rm ChrL.fa
-gzip $name.fa
+#gunzip $genome.gz -c > $name.fa
+#samtools faidx $name.fa
+#gunzip ../../../misc/ChrL.fa.gz -c > ChrL.fa
+#cat $name.fa ChrL.fa > ../methylCseq/tmp
+#rm ChrL.fa
+#gzip $name.fa
 
 #methylCseq index
-cd ../methylCseq
-python ../../../scripts/fix_fasta.py -i tmp -o $name.fa
-rm tmp
-samtools faidx $name.fa
-methylpy build-reference --input-files $name.fa \
-	--output-prefix $name --bowtie2=True
+#cd ../methylCseq
+#python ../../../scripts/fix_fasta.py -i tmp -o $name.fa
+#rm tmp
+#samtools faidx $name.fa
+#methylpy build-reference --input-files $name.fa \
+#	--output-prefix $name --bowtie2=True
 
 #Format annotations
 cd ../annotations
@@ -57,11 +57,11 @@ gunzip $gff -c > $name.gff
 
 
 #Setup Sample folders
-cd ../../
-samples=$(sed '1d' ../misc/samples.csv | cut -d ',' -f6 | tr '\n' ' ')
-for i in $samples
-do
-	mkdir $i
-done 
+#cd ../../
+#samples=$(sed '1d' ../misc/samples.csv | cut -d ',' -f6 | tr '\n' ' ')
+#for i in $samples
+#do
+#	mkdir $i
+#done 
 
 

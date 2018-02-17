@@ -37,9 +37,12 @@ cd ../../
 mkdir methylCseq
 cd methylCseq
 echo "Running methylpy"
+module load SAMTools/1.5
+module load bowtie2/2.3.1
+module load Java/1.8.0_31
 methylpy paired-end-pipeline \
-	--read1-files fastq/*_1.fastq \
-	--read2-files fastq/*_2.fastq \
+	--read1-files ../fastq/methylCseq/*_R1_*.fastq \
+	--read2-files ../fastq/methylCseq/*_R2_*.fastq \
 	--libraries "libA" \
 	--sample $sample \
 	--forward-ref ../../ref/methylCseq/Tguttata_f \

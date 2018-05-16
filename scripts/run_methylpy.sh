@@ -1,7 +1,7 @@
 #!/bin/bash -login
 #PBS -l walltime=96:00:00
 #PBS -l nodes=1:ppn=6
-#PBS -l mem=100gb
+#PBS -l mem=36gb
 #PBS -N methylpy
 
 cd $PBS_O_WORKDIR
@@ -49,7 +49,7 @@ methylpy paired-end-pipeline \
 	--reverse-ref ../../ref/methylCseq/Tguttata_r \
 	--ref-fasta ../../ref/methylCseq/Tguttata.fa \
 	--num-procs 6 \
-	--sort-mem 9 \
+	--sort-mem 5 \
 	--trim-reads True \
 	--path-to-cutadapt "" \
 	--adapter-seq-read1 AGATCGGAAGAGCACACGTCTGAAC \

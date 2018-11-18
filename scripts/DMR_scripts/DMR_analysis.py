@@ -3,13 +3,13 @@ import sys
 import pandas as pd
 import pybedtools as pbt
 
-functionsfile = '../../../../scripts/functions.py'
+functionsfile = '../../../scripts/functions.py'
 sys.path.append(os.path.dirname(os.path.expanduser(functionsfile)))
 
 import functions
 
-dmr_file="CG_rms_results_collapsed.tsv"
-filtered_dmr="CG_filtered.tsv"
+dmr_file="CGN_rms_results_collapsed.tsv"
+filtered_dmr="CGN_filtered.tsv"
 genes_gff=""
 repeats_gff=""
 

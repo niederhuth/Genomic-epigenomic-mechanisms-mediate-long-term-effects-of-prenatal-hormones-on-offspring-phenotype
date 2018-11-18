@@ -1,91 +1,95 @@
-#!/bin/bash -login
-#PBS -l walltime=96:00:00
-#PBS -l nodes=1:ppn=6
-#PBS -l mem=36gb
-#PBS -N methylpy
+#!/bin/bash --login
+#SBATCH --time=72:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=20
+#SBATCH --mem=100GB
+#SBATCH --job-name methylpy
+#SBATCH --output=job_reports/%x-%j.SLURMout
 
 cd $PBS_O_WORKDIR
 
+#List Variables
 sample=$(pwd | sed s/^.*\\///)
+f_ref="../../ref/methylCseq/Tguttata_f"
+r_ref="../../ref/methylCseq/Tguttata_r"
+fasta="../../ref/methylCseq/Tguttata.fa"
+read1="../fastq/methylCseq/*_R1_*.fastq"
+read2="../fastq/methylCseq/*_R2_*.fastq"
+unmethylated_control="ChrL"
+adaptor1="AGATCGGAAGAGCACACGTCTGAAC"
+adaptor2="AGATCGGAAGAGCGTCGTGTAGGGA"
+aligner="bowtie2"
+picard="/mnt/home/niederhu/anaconda3/share/picard-2.18.15-0"
 
-echo "Running $sample"
+#Unzip fastq files
+echo "Decompressing fastq files"
 cd fastq/methylCseq
-if ls *fastq.gz >/dev/null 2>&1
-then
-	echo "Data present"
-else
-	echo "Downloading from SRA"
-	python ../../script/download_fastq.py "$sample"_methylCseq
-fi
-if ls *sra >/dev/null 2>&1
-then
-	echo "Running fastq-dump"
-	module load SRAToolkit/2.8.2
-	for i in *sra
-	do
-		fastq-dump --split-3 $i
-		rm $i
-	done
-fi
-echo "Unpacking fastqs"
 for i in *fastq.gz
 do
 	gunzip $i
-done
-cd ../../
+done 
+cd ../../methylCseq
 
-mkdir methylCseq
-cd methylCseq
+#Run Methylpy
 echo "Running methylpy"
-module load SAMTools/1.5
-module load bowtie2/2.3.1
-module load Java/1.8.0_31
 methylpy paired-end-pipeline \
-	--read1-files ../fastq/methylCseq/*_R1_*.fastq \
-	--read2-files ../fastq/methylCseq/*_R2_*.fastq \
-	--libraries "libA" \
+	--read1-files $read1 \
+	--read2-files $read2 \
 	--sample $sample \
-	--forward-ref ../../ref/methylCseq/Tguttata_f \
-	--reverse-ref ../../ref/methylCseq/Tguttata_r \
-	--ref-fasta ../../ref/methylCseq/Tguttata.fa \
-	--num-procs 6 \
-	--sort-mem 5 \
+	--forward-ref $f_ref \
+	--reverse-ref $r_ref \
+	--ref-fasta $fasta \
+	--libraries "libA" \
+	--path-to-output "" \
+	--pbat False \
+	--check-dependency False \
+	--num-procs 20 \
+	--sort-mem 5G \
+	--num-upstream-bases 0 \
+	--num-downstream-bases 1 \
+	--generate-allc-file True \
+	--generate-mpileup-file True \
+	--compress-output True \
+	--bgzip False \
+	--path-to-bgzip "" \
+	--path-to-tabix "" \
 	--trim-reads True \
 	--path-to-cutadapt "" \
-	--adapter-seq-read1 AGATCGGAAGAGCACACGTCTGAAC \
-	--adapter-seq-read2 AGATCGGAAGAGCGTCGTGTAGGGA \
+	--path-to-aligner "" \
+	--aligner $aligner \
+	--aligner-options "" \
+	--merge-by-max-mapq True \
+	--remove-clonal True \
+	--path-to-picard $picard \
+	--keep-clonal-stats True \
+	--java-options "" \
+	--path-to-samtools "" \
+	--adapter-seq-read1 $adaptor1 \
+	--adapter-seq-read2 $adaptor2 \
+	--remove-chr-prefix False \
+	--add-snp-info False \
+	--unmethylated-control $unmethylated_control \
+	--binom-test True \
+	--sig-cutoff .01 \
+	--min-mapq 30 \
+	--min-cov 3 \
 	--max-adapter-removal 1 \
 	--overlap-length 3 \
 	--error-rate 0.1 \
 	--min-qual-score 10 \
 	--min-read-len 30 \
-	--bowtie2 True \
-	--path-to-aligner "" \
-	--aligner-options "" \
-	--merge-by-max-mapq True \
-	--path-to-samtools "" \
-	--remove-clonal True \
-	--keep-clonal-stats True \
-	--path-to-picard /mnt/home/niederhu/.local/java/lib \
-	--java-options "" \
-	--binom-test True \
-	--num-upstream-bases 0 \
-	--num-downstream-bases 2 \
-	--unmethylated-control "ChrL" \
 	--min-base-quality 1 \
-	--min-cov 3 \
-	--sig-cutoff .01 \
-	--path-to-output "" \
-	--keep-temp-files False \
-	--generate-allc-file True \
-	--generate-mpileup-file True \
-	--remove-chr-prefix False \
-	--compress-output True
+	--keep-temp-files False
 
+#rm *mpileup_output.tsv *_reads_no_clonal*.bam* *_libA.metric
+
+#Compress fastq files
+echo "Compressing fastqs"
 cd ../fastq/methylCseq
 for i in *fastq
 do
 	gzip $i
 done
 
-
+echo "Done"

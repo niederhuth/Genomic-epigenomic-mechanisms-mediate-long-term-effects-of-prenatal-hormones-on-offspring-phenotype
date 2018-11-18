@@ -1,20 +1,19 @@
 #!/bin/bash -login
-#PBS -l walltime=3:59:00 
+#PBS -l walltime=60:00:00 
 #PBS -l nodes=1:ppn=6
-#PBS -l mem=10gb
+#PBS -l mem=100gb
 #PBS -N Find_DMRs
 
-#cd $PBS_O_WORKDIR
+cd $PBS_O_WORKDIR
+module load GSL/1.15
 
-#SAMPLES="FCH1 FCH2 FCH3 FCNT1 FCNT2 FCNT3 FTH1 FTH2 FTH3 FTNT1 FTNT2 FTNT3 MCH1 MCH2 MCH3 MCNT1 MCNT2 MCNT3 MTH1 MTH2 MTH3 MTNT1 MTNT2 MTNT3"
-SAMPLES="FCH1 FTH1"
+SAMPLES="FCH1 FCH2 FCH3 FCNT1 FCNT2 FCNT3 FTH1 FTH2 FTH3 FTNT1 FTNT2 FTNT3 MCH1 MCH2 MCH3 MCNT1 MCNT2 MCNT3 MTH1 MTH2 MTH3 MTNT1 MTNT2 MTNT3"
 SAMPLE_CATEGORY=$(seq 1 $(echo $SAMPLES | wc -w) | tr '\n' ',' | sed s/,$//i | sed s/,/,\ /g)
-#CHROMS="1 10 11 12 13 14 15 17 18 19 1A 1B 2 20 21 22 23 24 25 26 27 28 3 4 4A 5 6 7 8 9 LG2 LG5 LGE22 Z Un 4random 8random Zrandom 13random 5random 6random 21random 2random 26random 3random 1random 22random 1Arandom 7random 10random 23random 18random 25random LGE22random 9random 15random 2random 20random 11random 4Arandom 14random 17random 27random 19random 28random 16random 24random 1Brandom"
-CHROMS="1"
+CHROMS="1 10 11 12 13 14 15 17 18 19 1A 1B 2 20 21 22 23 24 25 26 27 28 3 4 4A 5 6 7 8 9 LG2 LG5 LGE22 Z Un 4_random 8_random Z_random 13_random 5_random 6_random 21_random 2_random 26_random 3_random 1_random 22_random 1A_random 7_random 10_random 23_random 18_random 25_random LGE22_random 9_random 15_random 2_random 20_random 11_random 4A_random 14_random 17_random 27_random 19_random 28_random 16_random 24_random 1B_random"
 ALLC_FILES=$(for i in $SAMPLES; do awk -v a=$i 'BEGIN {print "../"a"/methylCseq/allc_"a".tsv.gz"}'; done | tr '\n' ' ')
 echo $ALLC_FILES
 
-for i in CGN #CHN CNN
+for i in CNN
 do
 	echo "Calling $i DMRs"
 	methylpy DMRfind --allc-files $ALLC_FILES \

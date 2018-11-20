@@ -67,9 +67,9 @@ def total_weighted_mC(allc,output=(),mc_type=['CG','CHG','CHH'],cutoff=0,chrs=[]
 	b = pd.DataFrame(columns=columns)
 	#iterate over each mC type and run get_mC_data
 	for c in mc_type:
-		d=[]
 		d = get_mC_data(a,mc_type=c,cutoff=cutoff)
 		#calculate weighted methylation
+		print(d)
 		d = d + [np.float64(d[4])/np.float64(d[3])]
 		b = b.append(pd.DataFrame(d,columns=columns), ignore_index=True)
 	#output results

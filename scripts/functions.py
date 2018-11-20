@@ -32,7 +32,7 @@ def expand_nucleotide_code(mc_type=["C"]):
 	return(set(mc_class_final))
 
 #Collect mC data for a context
-def get_mC_data(a,mc_type=['C'],cutoff=0):
+def get_mC_data(a,mc_type=["C"],cutoff=0):
 	#expand nucleotide list for a given context
 	b = expand_nucleotide_code(mc_type)
 	d1 = d2 = d3 = d4 = 0
@@ -56,23 +56,23 @@ def get_mC_data(a,mc_type=['C'],cutoff=0):
 	return e
 
 #Collect total methylation data for genome or sets of chromosomes
-def total_weighted_mC(allc,output=(),mc_type=['CG','CHG','CHH'],cutoff=0,chrs=[]):
+def total_weighted_mC(allc,output=(),mc_type=["CG","CHG","CHH"],cutoff=0,chrs=[]):
 	#read allc file
-	a =  pd.read_table(allc,names=['chr','pos','strand','mc_class','mc_count','total','methylated'],dtype={'chr':str,'pos':int,'strand':str,'mc_class':str,'mc_count':int,'total':int,'methylated':int})
+	a =  pd.read_table(allc,names=["chr","pos","strand","mc_class","mc_count","total","methylated"],dtype={"chr":str,"pos":int,"strand":str,"mc_class":str,"mc_count":int,"total":int,"methylated":int})
 	#filter chromosome sequences
 	if chrs:
 		a = a[a.chr.isin(chrs)]
 	#create data frame
-	columns=['Context','Total_sites','Methylated_sites','Total_reads','Methylated_reads','Weighted_mC']
+	columns=["Context","Total_sites","Methylated_sites","Total_reads","Methylated_reads","Weighted_mC"]
 	b = pd.DataFrame(columns=columns)
 	#iterate over each mC type and run get_mC_data
 	for c in mc_type:
-		d = get_mC_data(a,mc_type=c,cutoff=cutoff)
+		d = get_mC_data(a,mc_type=[c],cutoff=cutoff)
 		#calculate weighted methylation
 		d = d + [(np.float64(d[4])/np.float64(d[3]))]
 		b = b.append(pd.DataFrame(d,columns=columns), ignore_index=True)
 	#output results
 	if output:
-		b.to_csv(output, sep='\t', index=False)
+		b.to_csv(output, sep="\t", index=False)
 	else:
 		return b

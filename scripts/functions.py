@@ -33,27 +33,45 @@ def expand_nucleotide_code(mc_type=["C"]):
 
 #Collect mC data for a context
 def get_mC_data(a,mc_type=['C'],cutoff=0):
+	#expand nucleotide list for a given context
 	b = expand_nucleotide_code(mc_type)
 	d1 = d2 = d3 = d4 = 0
+	#iterate over each line
 	for c in a.itertuples():
+		#check if line is correct context
 		if c[4] in b:
+			#check if meets minimum cutoff for read depth
 			if int(c[6]) >= int(cutoff):
+				#add up number of sites
 				d1 = d1 + 1
+				#add up number of sites called methylated by methylpy
 				d2 = d2 + int(c[7])
+				#add up total reads covering a site
 				d3 = d3 + int(c[6])
+				#add up total methylated reads covering a site
 				d4 = d4 + int(c[5])
+	#create list
 	e = [mc_type,d1,d2,d3,d4]
+	#return that list
 	return e
 
 #Collect total methylation data for genome or sets of chromosomes
 def total_weighted_mC(allc,output=(),mc_type=['CG','CHG','CHH'],cutoff=0,chrs=[]):
+	#read allc file
 	a =  pd.read_table(allc,names=['chr','pos','strand','mc_class','mc_count','total','methylated'],dtype={'chr':str,'pos':int,'strand':str,'mc_class':str,'mc_count':int,'total':int,'methylated':int})
+	#filter chromosome sequences
 	if chrs:
 		a = a[a.chr.isin(chrs)]
-	b = pd.DataFrame(columns=['Context','Total_sites','Methylated_sites','Total_reads','Methylated_reads','Weighted_mC'])
+	#create data frame
+	columns=['Context','Total_sites','Methylated_sites','Total_reads','Methylated_reads','Weighted_mC']
+	b = pd.DataFrame(columns=columns)
+	#iterate over each mC type and run get_mC_data
 	for c in mc_type:
 		d = get_mC_data(a,mc_type=c,cutoff=cutoff)
-		b = b.append({'Context':print(d[0]),'Total_sites':d[1],'Methylated_sites':d[2],'Total_reads':d[3],'Methylated_reads':d[4],'Weighted_mC':(np.float64(d[4])/np.float64(d[3]))}, ignore_index=True)
+		#calculate weighted methylation
+		d = d + [np.float64(d[4])/np.float64(d[3])]
+		b = b.append(pd.DataFrame(e,columns=columns), ignore_index=True)
+	#output results
 	if output:
 		b.to_csv(output, sep='\t', index=False)
 	else:

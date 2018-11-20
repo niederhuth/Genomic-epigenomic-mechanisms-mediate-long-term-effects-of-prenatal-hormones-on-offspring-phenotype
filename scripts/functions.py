@@ -53,7 +53,7 @@ def total_weighted_mC(allc,output=(),mc_type=['CG','CHG','CHH'],cutoff=0,chrs=[]
 	b = pd.DataFrame(columns=['Context','Total_sites','Methylated_sites','Total_reads','Methylated_reads','Weighted_mC'])
 	for c in mc_type:
 		d = get_mC_data(a,mc_type=c,cutoff=cutoff)
-		b = b.append({'Context':d[0],'Total_sites':d[1],'Methylated_sites':d[2],'Total_reads':d[3],'Methylated_reads':d[4],'Weighted_mC':(np.float64(d[4])/np.float64(d[3]))}, ignore_index=True)
+		b = b.append({'Context':print(d[0]),'Total_sites':d[1],'Methylated_sites':d[2],'Total_reads':d[3],'Methylated_reads':d[4],'Weighted_mC':(np.float64(d[4])/np.float64(d[3]))}, ignore_index=True)
 	if output:
 		b.to_csv(output, sep='\t', index=False)
 	else:

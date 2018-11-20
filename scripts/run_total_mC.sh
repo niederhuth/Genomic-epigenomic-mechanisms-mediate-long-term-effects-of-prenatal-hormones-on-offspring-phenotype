@@ -5,15 +5,19 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=60GB
 #SBATCH --job-name total_mC
-#SBATCH --output=%x-%j.SLURMout
+#SBATCH --output=job_reports/%x-%j.SLURMout
 
+cd $PBS_O_WORKDIR
+#Set tmp directories
 export TMPDIR=$PBS_O_WORKDIR
 export TMP=$PBS_O_WORKDIR
 export TEMP=$PBS_O_WORKDIR
 
-cd $PBS_O_WORKDIR
+#variables
 sample=$(pwd | sed s/.*data\\/// | sed s/\\/.*//)
 
+#get total weighted mC
 echo "MethylC Analysis of $sample"
-python ../../scripts/total_mC.py $sample
+cd methylCseq
+python ../../../scripts/total_mC.py $sample
 

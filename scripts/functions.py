@@ -18,7 +18,7 @@ def strand_filter(x,strand):
 
 #function for filtering annotation files based on chromosome
 def chr_filter(x,chr):
-	return x.chrom not in chr
+	return x.chrom in chr
 
 #interpret sequence context, taken from methylpy utilities
 def expand_nucleotide_code(mc_type=['C']):
@@ -105,15 +105,15 @@ def total_weighted_mC(allc,output=(),mc_type=['CG','CHG','CHH'],cutoff=0,chrs=[]
 		return b
 
 #create filtered allc of sites mapping to annotations
-def allc_annotation_filter(allc,annotations,genome_file,output=(),updown_stream=2000,first_feature=(),second_feature=(),filter_chr=[]):
+def allc_annotation_filter(allc,annotations,genome_file,output=(),updown_stream=2000,first_feature=(),second_feature=(),chrs=[]):
 	#read in annotations and filter by first feature, typically a something like 'gene'
 	#this is used solely to accurately create flanking regions
-	bed = pbt.BedTool(annotations).filter(feature_filter,first_feature).filter(chr_filter,filter_chr)
+	bed = pbt.BedTool(annotations).filter(feature_filter,first_feature).filter(chr_filter,chrs)
 	#create bedfile of flanking regions (if specified)
 	flank_bed = pbt.bedtool.BedTool.flank(bed,g=genome_file,l=updown_stream,r=updown_stream,s=True).saveas('f_bed.tmp')
 	#read in annotations and filter by second annotation, typically a something like coding sequences 'CDS'
 	#this is the annotation used to first filter the data
-	cds_bed = pbt.BedTool(annotations).filter(feature_filter,second_feature).filter(chr_filter,filter_chr).saveas('c_bed.tmp')
+	cds_bed = pbt.BedTool(annotations).filter(feature_filter,second_feature).filter(chr_filter,chrs).saveas('c_bed.tmp')
 	#combine flanking regions with second feature
 	combined_bed = cds_bed.cat(flank_bed, postmerge=False)
 	#read in allc file and map to annotations
@@ -134,7 +134,7 @@ def allc_annotation_filter(allc,annotations,genome_file,output=(),updown_stream=
 		os.remove(b)
 
 #output methylation data for making metaplots of features (i.e. genes, CDS, transposons), will not filter out data from introns, etc...use gene_metaplot for that
-def metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],window_number=60,updown_stream=2000,feature=(),cutoff=0,filter_chr=[]):
+def metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],window_number=60,updown_stream=2000,feature=(),cutoff=0,chrs=[]):
 	#read in allc file
 	a = allc2bed(allc)
 	#create output data frame
@@ -145,7 +145,7 @@ def metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],w
 			c = c + [d + '_' + e]
 	b = pd.DataFrame(columns=c)
 	#read annotation file and filter on feature
-	f_bed = pbt.BedTool(annotations).filter(feature_filter,feature).filter(chr_filter,filter_chr).saveas('f_bed.tmp')
+	f_bed = pbt.BedTool(annotations).filter(feature_filter,feature).filter(chr_filter,chrs).saveas('f_bed.tmp')
 	#if updown_stream set to 0, only region to look at is the feature itself, e.g. f_bed
 	if updown_stream == 0:
 		regions=[f_bed]
@@ -207,11 +207,11 @@ def metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],w
 
 
 #output methylation data for making metaplots of features (i.e. genes, CDS, transposons), for use when need to first filter data from another feature, such as intron sequences
-def gene_metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],window_number=60,updown_stream=2000,cutoff=0,first_feature=(),second_feature=(),filter_chr=[],remove_tmp=True):
+def gene_metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],window_number=60,updown_stream=2000,cutoff=0,first_feature=(),second_feature=(),chrs=[],remove_tmp=True):
 	#prefilter allc file based on annotations
-	allc_annotation_filter(allc,annotations,genome_file,output='annotation_filtered_allc.tmp',updown_stream=updown_stream,first_feature=first_feature,second_feature=second_feature,filter_chr=filter_chr)
+	allc_annotation_filter(allc,annotations,genome_file,output='annotation_filtered_allc.tmp',updown_stream=updown_stream,first_feature=first_feature,second_feature=second_feature,chrs=chrs)
 	#collect methylation data
-	metaplot('annotation_filtered_allc.tmp',annotations,genome_file,output=output,mc_type=mc_type,window_number=window_number,updown_stream=updown_stream,feature=first_feature,cutoff=0,filter_chr=filter_chr)
+	metaplot('annotation_filtered_allc.tmp',annotations,genome_file,output=output,mc_type=mc_type,window_number=window_number,updown_stream=updown_stream,feature=first_feature,cutoff=0,chrs=chrs)
 	#remove annotation filtered allc file, if set to false, this will be kept
 	if remove_tmp:
 		os.remove('annotation_filtered_allc.tmp')

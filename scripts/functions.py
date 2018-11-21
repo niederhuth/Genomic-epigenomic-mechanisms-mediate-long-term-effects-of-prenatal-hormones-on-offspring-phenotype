@@ -4,28 +4,12 @@ import numpy as np
 
 #interpret sequence context, taken from methylpy utilities
 def expand_nucleotide_code(mc_type=["C"]):
-	iub_dict = {"N":["A","C","G","T","N"],
-	"H":["A","C","T","H"],
-	"D":["A","G","T","D"],
-	"B":["C","G","T","B"],
-	"A":["A","C","G","A"],
-	"R":["A","G","R"],
-	"Y":["C","T","Y"],
-	"K":["G","T","K"],
-	"M":["A","C","M"],
-	"S":["G","C","S"],
-	"W":["A","T","W"],
-	"C":["C"],
-	"G":["G"],
-	"T":["T"],
-	"A":["A"]}
-
+	iub_dict = {"N":["A","C","G","T","N"],"H":["A","C","T","H"],"D":["A","G","T","D"],"B":["C","G","T","B"],"A":["A","C","G","A"],"R":["A","G","R"],"Y":["C","T","Y"],"K":["G","T","K"],"M":["A","C","M"],"S":["G","C","S"],"W":["A","T","W"],"C":["C"],"G":["G"],"T":["T"],"A":["A"]}
 	mc_class = list(mc_type) # copy
 	if "C" in mc_type:
 		mc_class.extend(["CGN", "CHG", "CHH","CNN"])
 	elif "CG" in mc_type:
 		mc_class.extend(["CGN"])
-
 	mc_class_final = []
 	for motif in mc_class:
 		mc_class_final.extend(["".join(i) for i in itertools.product(*[iub_dict[nuc] for nuc in motif])])

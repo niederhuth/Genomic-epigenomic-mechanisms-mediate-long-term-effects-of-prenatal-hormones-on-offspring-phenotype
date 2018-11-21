@@ -51,7 +51,7 @@ def get_mC_data(a,mc_type=["C"],cutoff=0):
 				#add up total methylated reads covering a site
 				d4 = d4 + int(c[5])
 	#create list
-	e = [mc_type,d1,d2,d3,d4]
+	e = [[mc_type,d1,d2,d3,d4]]
 	#return that list
 	return e
 

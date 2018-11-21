@@ -1,7 +1,6 @@
 import os
 import sys
 import itertools
-
 import numpy as np
 import pandas as pd
 import pybedtools as pbt
@@ -94,7 +93,7 @@ def total_weighted_mC(allc,output=(),mc_type=['CG','CHG','CHH'],cutoff=0,chrs=[]
 	b = pd.DataFrame(columns=columns)
 	#iterate over each mC type and run get_mC_data
 	for c in mc_type:
-		d = get_mC_data(a,mc_type=[c],cutoff=cutoff)
+		d = get_mC_data(a,mc_type=c,cutoff=cutoff)
 		#calculate weighted methylation
 		d = d + [(np.float64(d[4])/np.float64(d[3]))]
 		#add to data frame

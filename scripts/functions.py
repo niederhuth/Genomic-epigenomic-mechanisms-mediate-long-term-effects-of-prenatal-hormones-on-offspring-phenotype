@@ -25,7 +25,7 @@ def expand_nucleotide_code(mc_type=['C']):
 	iub_dict = {'N':['A','C','G','T','N'],'H':['A','C','T','H'],'D':['A','G','T','D'],'B':['C','G','T','B'],'A':['A','C','G','A'],'R':['A','G','R'],'Y':['C','T','Y'],'K':['G','T','K'],'M':['A','C','M'],'S':['G','C','S'],'W':['A','T','W'],'C':['C'],'G':['G'],'T':['T'],'A':['A']}
 	mc_class = list(mc_type) # copy
 	if 'C' in mc_type:
-		mc_class.extend(['CGN', 'CHG', 'CHH','CNN','CH','CN'])
+		mc_class.extend(['CGN', 'CHG', 'CHH','CNN'])
 	elif 'CG' in mc_type:
 		mc_class.extend(['CGN'])
 	mc_class_final = []
@@ -60,7 +60,7 @@ def allc2bed(allc):
 #Collect mC data for a context
 def get_mC_data(a,mc_type='C',cutoff=0):
 	#expand nucleotide list for a given context
-	b = expand_nucleotide_code(mc_type)
+	b = expand_nucleotide_code(mc_type=[mc_type])
 	d1 = d2 = d3 = d4 = 0
 	#iterate over each line
 	for c in a.itertuples():

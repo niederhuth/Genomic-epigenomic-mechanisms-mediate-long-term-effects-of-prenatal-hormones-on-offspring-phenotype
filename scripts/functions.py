@@ -191,7 +191,7 @@ def metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],w
 			for k in mc_type:
 				l = get_mC_data(i,mc_type=k,cutoff=cutoff)
 				#Calculate weighted methylation and add this to list of data for other mc_types
-				j = j + [(np.float64(l[3])/np.float64(l[2]))]
+				j = j + [(np.float64(l[4])/np.float64(l[3]))]
 			#append the results for that window to the dataframe
 			b = b.append(pd.DataFrame([j],columns=c),ignore_index=True)
 			#count windows

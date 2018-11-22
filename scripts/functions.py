@@ -1,5 +1,6 @@
 import os
 import sys
+import gzip
 import itertools
 import numpy as np
 import pandas as pd

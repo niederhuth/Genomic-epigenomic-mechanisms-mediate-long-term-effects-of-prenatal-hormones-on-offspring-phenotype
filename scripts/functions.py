@@ -2,9 +2,44 @@ import os
 import sys
 import gzip
 import itertools
-import numpy as np
 import pandas as pd
 import pybedtools as pbt
+from io import TextIOWrapper
+from numpy import float64
+
+#split large files into temporary files of smaller size
+def split_file(input,line_number=10000000):
+	#set starting count values
+	a = 1
+	b = 0
+	c = line_number
+	#open first output file and add to list
+	files = ['split' + str(a) + '.tmp']
+	out=open('split' + str(a) + '.tmp','w')
+	#open input file
+	with TextIOWrapper(gzip.open(input,'rb')) as e:
+		#iterate over each line, adding an index
+		for index, line in enumerate(e):
+			#test if index fits between upper and lower limits and write to file
+			if index <= c:
+				if index > b:
+					out.write(str(line))
+			else:
+				#close last ouput
+				out.close()
+				#reset count values
+				a += 1
+				b = c
+				c += line_number
+				#open new output and add to list
+				filesappend('split' + str(a) + '.tmp')
+				out=open('split' + str(a) + '.tmp','w')
+				#output line
+				out.write(str(line))
+		#close last ouptut
+		out.close()
+	#return number of temporary files for use in other functions
+	return(files)
 
 #function for filtering annotation files based on feature (gene, exon, mRNA, etc)
 def feature_filter(x,feature):
@@ -35,7 +70,7 @@ def expand_nucleotide_code(mc_type=['C']):
 	return(set(mc_class_final))
 
 #Read allc file and convert to bedfile
-def allc2bed(allc):
+def allc2bed(allc,return_bed=True):
 	#get first line
 	if allc.endswith('gz'):
 		header = gzip.open(allc).readline().rstrip()
@@ -54,8 +89,10 @@ def allc2bed(allc):
 	a['score'] = '.'
 	#reorder columns
 	a = a[['chr','pos','pos2','name','score','strand','mc_class','mc_count','total','methylated']]
-	#return bed file
-	a = pbt.BedTool.from_dataframe(a)
+	#if return_bed = True, convert to bedfile
+	if return_bed is True:
+		a = pbt.BedTool.from_dataframe(a)
+	#return a
 	return a
 
 #Collect mC data for a context
@@ -85,7 +122,7 @@ def get_mC_data(a,mc_type='C',cutoff=0):
 #Collect total methylation data for genome or sets of chromosomes
 def total_weighted_mC(allc,output=(),mc_type=['CG','CHG','CHH'],cutoff=0,chrs=[]):
 	#read allc file
-	a =  pd.read_table(allc,names=['chr','pos','strand','mc_class','mc_count','total','methylated'],dtype={'chr':str,'pos':int,'strand':str,'mc_class':str,'mc_count':int,'total':int,'methylated':int})
+	a = allc2bed(allc,return_bed=False)
 	#filter chromosome sequences
 	if chrs:
 		a = a[a.chr.isin(chrs)]
@@ -96,7 +133,7 @@ def total_weighted_mC(allc,output=(),mc_type=['CG','CHG','CHH'],cutoff=0,chrs=[]
 	for c in mc_type:
 		d = get_mC_data(a,mc_type=c,cutoff=cutoff)
 		#calculate weighted methylation
-		d = d + [(np.float64(d[4])/np.float64(d[3]))]
+		d += [(float64(d[4])/float64(d[3]))]
 		#add to data frame
 		b = b.append(pd.DataFrame([d],columns=columns), ignore_index=True)
 	#output results
@@ -148,7 +185,7 @@ def genome_window_methylation(allc,genome_file,output=(),mc_type=['CG','CHG','CH
 				#delete first line of list
 				del(l[0])
 				#Calculate weighted methylation and add this to list of data for other mc_types
-				j = j + l + [(np.float64(l[3])/np.float64(l[2]))]
+				j += l + [(float64(l[3])/float64(l[2]))]
 			#append the results for that window to the dataframe
 			b = b.append(pd.DataFrame([j],columns=c),ignore_index=True)
 	#output results
@@ -243,11 +280,11 @@ def metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],w
 			for k in mc_type:
 				l = get_mC_data(i,mc_type=k,cutoff=cutoff)
 				#Calculate weighted methylation and add this to list of data for other mc_types
-				j = j + [(np.float64(l[4])/np.float64(l[3]))]
+				j += [(float64(l[4])/float64(l[3]))]
 			#append the results for that window to the dataframe
 			b = b.append(pd.DataFrame([j],columns=c),ignore_index=True)
 			#count windows
-			window = window + 1
+			window += 1
 	#output results
 	if output:
 		b.to_csv(output, sep='\t', index=False)
@@ -257,7 +294,6 @@ def metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],w
 	tmp=['f_bed.tmp','u_bed.tmp','d_bed.tmp','p_bed.tmp','n_bed.tmp']
 	for n in tmp:
 		os.remove(n)
-
 
 #output methylation data for making metaplots of features (i.e. genes, CDS, transposons), for use when need to first filter data from another feature, such as intron sequences
 def gene_metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],window_number=60,updown_stream=2000,cutoff=0,first_feature=(),second_feature=(),chrs=[],remove_tmp=True):

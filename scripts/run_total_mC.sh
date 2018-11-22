@@ -17,7 +17,7 @@ export TEMP=$PBS_O_WORKDIR
 sample=$(pwd | sed s/.*data\\/// | sed s/\\/.*//)
 
 #get total weighted mC
-echo "MethylC Analysis of $sample"
+echo "Get total methylation of $sample"
 cd methylCseq
 python ../../../scripts/total_mC.py $sample
 

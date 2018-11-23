@@ -223,7 +223,7 @@ def allc_annotation_filter(allc,annotations,genome_file,output=(),updown_stream=
 	for b in tmp:
 		os.remove(b)
 
-#output methylation data for making metaplots of features (i.e. genes, CDS, transposons), will not filter out data from introns, etc...use gene_metaplot for that
+#output methylation data for making metaplots of features (e.g. genes, CDS, transposons), will not filter out data from introns, etc...use gene_metaplot for that
 def metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],window_number=60,updown_stream=2000,feature=(),cutoff=0,chrs=[]):
 	#read in allc file
 	a = allc2bed(allc)
@@ -295,7 +295,7 @@ def metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],w
 	for n in tmp:
 		os.remove(n)
 
-#output methylation data for making metaplots of features (i.e. genes, CDS, transposons), for use when need to first filter data from another feature, such as intron sequences
+#output methylation data for making metaplots of features (e.g. genes, CDS, transposons), for use when need to first filter data from another feature, such as intron sequences
 def gene_metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],window_number=60,updown_stream=2000,cutoff=0,first_feature=(),second_feature=(),chrs=[],remove_tmp=True):
 	#prefilter allc file based on annotations
 	allc_annotation_filter(allc,annotations,genome_file,output='annotation_filtered_allc.tmp',updown_stream=updown_stream,first_feature=first_feature,second_feature=second_feature,chrs=chrs)

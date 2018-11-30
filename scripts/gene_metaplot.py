@@ -17,8 +17,8 @@ window_number=60
 updown_stream=2000
 cutoff=0
 first_feature='gene'
-second_feature='CDS'
-output='results/gene_metaplot.txt'
+second_feature='exon'
+output='results/gene_metaplot2.txt'
 
 #get chromosome list
 chrs = list(pd.read_table(genome_file,header=None,usecols=[0],dtype='str')[0])

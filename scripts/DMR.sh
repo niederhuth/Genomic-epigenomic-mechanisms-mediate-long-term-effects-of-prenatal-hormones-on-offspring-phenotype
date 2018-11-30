@@ -1,8 +1,8 @@
 #!/bin/bash --login
-#SBATCH --time=72:00:00
+#SBATCH --time=12:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=20
+#SBATCH --cpus-per-task=6
 #SBATCH --mem=100GB
 #SBATCH --job-name DMRfind
 #SBATCH --output=job_reports/%x-%j.SLURMout
@@ -23,7 +23,7 @@ ALLC_FILES=$(for i in $SAMPLES; do awk -v a=$i 'BEGIN {print "../"a"/methylCseq/
 
 #Run DMRfind
 
-for i in CG CH CN
+for i in CG #CH CN
 do
 	echo "Calling $i DMRs"
 	methylpy DMRfind \
@@ -32,14 +32,14 @@ do
 	--output-prefix $i \
 	--chroms $CHROMS \
 	--mc-type $i \
-	--num-procs 20 \
+	--num-procs 6 \
 	--min-cov 0 \
 	--dmr-max-dist 250 \
 	--sig-cutoff 0.01 \
 	--num-sims 3000 \
 	--min-tests 100 \
 	--min-num-dms 0 \
-	--mc-max-dist 0 \
+	--mc-max-dist 200 \
 	--keep-temp-files False \
 	--min-cluster 2 \
 	--seed -1 \

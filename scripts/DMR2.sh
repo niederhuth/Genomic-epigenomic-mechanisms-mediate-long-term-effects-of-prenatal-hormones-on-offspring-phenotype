@@ -37,7 +37,7 @@ do
 	--num-sims 3000 \
 	--min-tests 100 \
 	--min-num-dms 0 \
-	--mc-max-dist 0 \
+	--mc-max-dist 10 \
 	--keep-temp-files False \
 	#--min-cluster 1 \
 	#--seed -1 \ 

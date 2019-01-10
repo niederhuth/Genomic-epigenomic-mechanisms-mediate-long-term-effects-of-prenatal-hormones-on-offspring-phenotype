@@ -2,16 +2,16 @@
 #SBATCH --time=48:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=20
+#SBATCH --cpus-per-task=5
 #SBATCH --mem=100GB
 #SBATCH --job-name DMRfind
 #SBATCH --output=job_reports/%x-%j.SLURMout
 
 cd $PBS_O_WORKDIR
 
-export TMPDIR=$PBS_O_WORKDIR
-export TMP=$PBS_O_WORKDIR
-export TEMP=$PBS_O_WORKDIR
+#export TMPDIR=$PBS_O_WORKDIR
+#export TMP=$PBS_O_WORKDIR
+#export TEMP=$PBS_O_WORKDIR
 
 #Define Variables
 
@@ -34,7 +34,7 @@ do
 	--output-prefix $i \
 	--chroms $CHROMS \
 	--mc-type $i \
-	--num-procs 20 \
+	--num-procs 5 \
 	--min-cov 0 \
 	--dmr-max-dist 250 \
 	--sig-cutoff 0.01 \

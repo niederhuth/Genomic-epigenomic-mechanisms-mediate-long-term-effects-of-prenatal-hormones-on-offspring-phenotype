@@ -9,6 +9,17 @@
 
 cd $PBS_O_WORKDIR
 
+
+df  -B 1G --output=avail /tmp | tail -n 1
+
+#mkdir tmp
+#echo $TMPDIR
+#export TMPDIR="tmp:$TMPDIR"
+#echo $TMPDIR
+
+#df  -B 1G --output=avail /tmp | tail -n 1
+du -sh $TMPDIR 
+
 #Define Variables
 
 SAMPLES='FCH1 FCH2 FCH3 FCNT1 FCNT2 FCNT3 FTH1 FTH2 FTH3 FTNT1 FTNT2 FTNT3 MCH1 MCH2 MCH3 MCNT1 MCNT2 MCNT3 MTH1 MTH2 MTH3 MTNT1 MTNT2 MTNT3'
@@ -21,7 +32,7 @@ ALLC_FILES=$(for i in $SAMPLES; do awk -v a=$i 'BEGIN {print "../"a"/methylCseq/
 
 #Run DMRfind
 
-for i in CG #CH #CN
+for i in CH
 do
 	echo "Calling $i DMRs"
 	methylpy DMRfind \
@@ -44,3 +55,8 @@ do
 	#--sample-category $SAMPLE_CATEGORY 
 	#--resid-cutoff 0.01   
 done
+
+
+#df  -B 1G --output=avail /tmp | tail -n 1
+du -sh $TMPDIR 
+

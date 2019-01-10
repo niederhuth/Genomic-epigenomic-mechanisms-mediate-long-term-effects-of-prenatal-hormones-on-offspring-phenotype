@@ -304,3 +304,65 @@ def gene_metaplot(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CH
 	#remove annotation filtered allc file, if set to false, this will be kept
 	if remove_tmp:
 		os.remove('annotation_filtered_allc.tmp')
+
+#Calculate methylation levels for features
+def gene_methylation(allc,annotations,genome_file,output=(),mc_type=['CG','CHG','CHH'],updown_stream=0,feature=(),cutoff=0,chrs=[]):
+	#read in allc file
+	a = allc2bed(allc)
+	#create output data frame
+	c = ['Feature']
+	columns=['Weighted_mC']
+	for d in mc_type:
+		for e in columns:
+			c = c + [d + '_' + e]
+	b = pd.DataFrame(columns=c)
+	#read annotation file and filter on feature
+	f_bed = pbt.BedTool(annotations).filter(feature_filter,feature).filter(chr_filter,chrs).saveas('f_bed.tmp')
+	#if updown_stream set to 0, only region to look at is the feature itself, e.g. f_bed
+	if updown_stream == 0:
+		regions=[f_bed]
+	#if updown_stream specified, create bed files for upstream regions (u_bed) and down stream regions (d_bed)
+	else:
+		u_bed = pbt.bedtool.BedTool.flank(f_bed,g=genome_file,l=updown_stream,r=0,s=True).saveas('u_bed.tmp')
+		d_bed = pbt.bedtool.BedTool.flank(f_bed,g=genome_file,l=0,r=updown_stream,s=True).saveas('d_bed.tmp')
+		regions=[u_bed,f_bed,d_bed]
+	#iterate over each region and collect methylation data
+	for f in regions:
+		#intersect bedfiles with pybedtools
+		mapping = pbt.bedtool.BedTool.intersect(a,f,wa=True,wb=True)
+		#convert to pandas dataframe
+		m = pd.read_table(mapping.fn,header=None,usecols=[18,6,7,8,9])
+		del(mapping)
+		#split column 18
+		g = m[18].str.split(';', n = 1, expand = True)
+		g = g[0].str.split('=', n = 1, expand = True)
+		#make new columns from column 18
+		m['Name'] = g[1]
+		m['Window'] = '.'
+		#reorder m
+		m = m[['Name','Window',18,6,7,8,9]]
+		#get gene names
+		g = m['Name'].drop_duplicates()
+		#iterate list of window numbers
+		for h in list(g):
+			print(h)
+			#filter for rows matching specific window number
+			i = m[m['Name'].isin([str(h)])]
+			#make list for methylation data
+			j = [h]
+			#iterate over each mC type and run get_mC_data
+			for k in mc_type:
+				l = get_mC_data(i,mc_type=k,cutoff=cutoff)
+				#Calculate weighted methylation and add this to list of data for other mc_types
+				j += [(float64(l[4])/float64(l[3]))]
+			#append the results for that window to the dataframe
+			print(j)
+			b = b.append(pd.DataFrame([j],columns=c),ignore_index=True)
+	#output results
+	if output:
+		b.to_csv(output, sep='\t', index=False)
+	else:
+		return b
+	#remove temporary files created
+	for n in regions:
+		os.remove(n)

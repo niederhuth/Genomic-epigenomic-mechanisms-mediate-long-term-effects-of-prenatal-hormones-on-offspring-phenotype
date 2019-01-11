@@ -103,7 +103,7 @@ for(i in names <- samples$Name){
     scale_x_continuous(labels=c("-2000","TSS","TTS","+2000"), breaks=c(1, 20, 40, 60)) +
     scale_color_manual("",values=c("black","tomato3"))
   
-  ggsave(paste(i,"_gene_metaplot.pdf",sep="_"),plot,path="sample_metaplots/")
+  ggsave(paste(i,"gene_metaplot.pdf",sep="_"),plot,path="sample_metaplots/")
 }
 
 #CH sample metaplots

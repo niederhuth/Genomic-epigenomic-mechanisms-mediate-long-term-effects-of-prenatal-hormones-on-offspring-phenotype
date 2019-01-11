@@ -3,9 +3,10 @@
 library(ggplot2)
 library(reshape2)
 
-samples <- read.csv('../../../misc/samples.csv',header=T)
+samples <- read.csv('../../misc/samples.csv',header=T)
 
 #
+setwd('total_methylation')
 df <- matrix(,nrow=5,ncol=0)
 for(i in names <- samples$Name){
   input=paste(i,"total_weighted_methylation.txt",sep="_")
@@ -18,6 +19,7 @@ df$context <- c('CG','CA','CT','CC','CH')
 
 #gene metaplots
 #CG group metaplots
+setwd('../metaplots')
 for(x in c('male','female')){
   for(y in c('Nucleus taeniae','Hypothalamus')){
     

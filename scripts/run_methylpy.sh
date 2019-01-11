@@ -4,7 +4,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=20
 #SBATCH --mem=100GB
-#SBATCH --job-name methylpy
+#SBATCH --job-name methylpy2
 #SBATCH --output=job_reports/%x-%j.SLURMout
 
 cd $PBS_O_WORKDIR
@@ -20,7 +20,8 @@ unmethylated_control="ChrL"
 adaptor1="AGATCGGAAGAGCACACGTCTGAAC"
 adaptor2="AGATCGGAAGAGCGTCGTGTAGGGA"
 aligner="bowtie2"
-picard="/mnt/home/niederhu/anaconda3/share/picard-2.18.15-0"
+aligner_options="-X 1000 -k 2 --no-mixed --no-discordant"
+picard="/mnt/home/niederhu/anaconda3/share/picard-2.18.16-0"
 
 #Unzip fastq files
 echo "Decompressing fastq files"
@@ -58,7 +59,7 @@ methylpy paired-end-pipeline \
 	--path-to-cutadapt "" \
 	--path-to-aligner "" \
 	--aligner $aligner \
-	--aligner-options "" \
+	--aligner-options "$aligner_options" \
 	--merge-by-max-mapq True \
 	--remove-clonal True \
 	--path-to-picard $picard \

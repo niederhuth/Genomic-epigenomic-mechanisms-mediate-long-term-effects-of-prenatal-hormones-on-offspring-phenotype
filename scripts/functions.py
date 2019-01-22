@@ -83,14 +83,15 @@ def allc2bed(allc,return_bed=True):
 	else:
 		#read in allc file to pandas dataframe, add header if does not have one
 		a = pd.read_table(allc,names=['chr','pos','strand','mc_class','mc_count','total','methylated'],dtype={'chr':str,'pos':int,'strand':str,'mc_class':str,'mc_count':int,'total':int,'methylated':int})
-	#add new columns
-	a['pos2'] = a['pos']
-	a['name'] = a.index
-	a['score'] = '.'
-	#reorder columns
-	a = a[['chr','pos','pos2','name','score','strand','mc_class','mc_count','total','methylated']]
 	#if return_bed = True, convert to bedfile
 	if return_bed is True:
+		#add new columns
+		a['pos2'] = a['pos']
+		a['name'] = a.index
+		a['score'] = '.'
+		#reorder columns
+		a = a[['chr','pos','pos2','name','score','strand','mc_class','mc_count','total','methylated']]
+		#create pybedtools object
 		a = pbt.BedTool.from_dataframe(a)
 	#return a
 	return a
@@ -320,16 +321,17 @@ def gene_methylation(allc,annotations,genome_file,output=(),mc_type=['CG','CHG',
 	f_bed = pbt.BedTool(annotations).filter(feature_filter,feature).filter(chr_filter,chrs).saveas('f_bed.tmp')
 	#if updown_stream set to 0, only region to look at is the feature itself, e.g. f_bed
 	if updown_stream == 0:
-		regions=[f_bed]
+		regions=['f_bed.tmp']
 	#if updown_stream specified, create bed files for upstream regions (u_bed) and down stream regions (d_bed)
 	else:
 		u_bed = pbt.bedtool.BedTool.flank(f_bed,g=genome_file,l=updown_stream,r=0,s=True).saveas('u_bed.tmp')
 		d_bed = pbt.bedtool.BedTool.flank(f_bed,g=genome_file,l=0,r=updown_stream,s=True).saveas('d_bed.tmp')
-		regions=[u_bed,f_bed,d_bed]
+		regions=['u_bed.tmp','d_bed.tmp']
 	#iterate over each region and collect methylation data
 	for f in regions:
 		#intersect bedfiles with pybedtools
 		mapping = pbt.bedtool.BedTool.intersect(a,f,wa=True,wb=True)
+		del(a)
 		#convert to pandas dataframe
 		m = pd.read_table(mapping.fn,header=None,usecols=[18,6,7,8,9])
 		del(mapping)
@@ -345,7 +347,6 @@ def gene_methylation(allc,annotations,genome_file,output=(),mc_type=['CG','CHG',
 		g = m['Name'].drop_duplicates()
 		#iterate list of window numbers
 		for h in list(g):
-			print(h)
 			#filter for rows matching specific window number
 			i = m[m['Name'].isin([str(h)])]
 			#make list for methylation data
@@ -356,7 +357,6 @@ def gene_methylation(allc,annotations,genome_file,output=(),mc_type=['CG','CHG',
 				#Calculate weighted methylation and add this to list of data for other mc_types
 				j += [(float64(l[4])/float64(l[3]))]
 			#append the results for that window to the dataframe
-			print(j)
 			b = b.append(pd.DataFrame([j],columns=c),ignore_index=True)
 	#output results
 	if output:

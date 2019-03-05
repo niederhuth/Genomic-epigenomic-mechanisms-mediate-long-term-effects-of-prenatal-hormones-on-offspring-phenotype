@@ -9,7 +9,7 @@ samples <- read.csv('../../misc/samples.csv',header=T)
 setwd('total_methylation')
 df <- matrix(,nrow=5,ncol=0)
 for(i in names <- samples$Name){
-  input=paste(i,"total_weighted_methylation.txt",sep="_")
+  input=paste(i,"total_methylation.txt",sep="_")
   df <- cbind(df,read.table(input,header=T,sep="\t")[6])
 }
 colnames(df) <- names
@@ -38,9 +38,9 @@ for(x in c('male','female')){
             axis.text.y=element_text(color="black"), axis.text.x=element_text(color="black"),
             axis.ticks=element_line(color="black"), axis.title=element_text(color="black"),
             legend.position="right", axis.line=element_line(color="black")) +
-      ylab("Percent methylation") + 
+      ylab("Methylation level") + 
       xlab( "" ) +
-      scale_y_continuous(limits=c(0,1), expand=c(0,0), breaks=c(0,0.25,0.75,1),labels=c("25%","50%","75%","100%")) +
+      scale_y_continuous(limits=c(0,1), expand=c(0,0), breaks=c(0.25,0.5,0.75,1),labels=c("25%","50%","75%","100%")) +
       geom_vline(xintercept=20, linetype="longdash", color="grey55") +
       geom_vline(xintercept=40, linetype="longdash", color="grey55") +
       scale_x_continuous(labels=c("-2000","TSS'","TTS'","+2000"), breaks=c(1, 20, 40, 60)) +
@@ -69,9 +69,8 @@ for(x in c('male','female')){
             axis.text.y=element_text(color="black"), axis.text.x=element_text(color="black"),
             axis.ticks=element_line(color="black"), axis.title=element_text(color="black"),
             legend.position="right", axis.line=element_line(color="black")) +
-      ylab("Percent methylation") + 
+      ylab("Methylation level") + 
       xlab( "" ) +
-      scale_y_continuous(limits=c(0,1), expand=c(0,0), breaks=c(0,0.25,0.75,1),labels=c("25%","50%","75%","100%")) +
       geom_vline(xintercept=20, linetype="longdash", color="grey55") +
       geom_vline(xintercept=40, linetype="longdash", color="grey55") +
       scale_y_continuous(limits=c(0,0.10), expand=c(0,0), breaks=c(0.025,0.05,0.075,0.10),labels=c("2.5%","5%","7.5%","10%")) +     
@@ -95,7 +94,7 @@ for(i in names <- samples$Name){
           axis.text.y=element_text(color="black"), axis.text.x=element_text(color="black"),
           axis.ticks=element_line(color="black"), axis.title=element_text(color="black"),
           legend.position="right", axis.line=element_line(color="black")) +
-    ylab("Weighted methylation") + 
+    ylab("Methylation level") + 
     xlab( "" ) +
     scale_y_continuous(limits=c(0,1), expand=c(0,0), breaks=c(0.25,0.5,0.75,1),labels=c("25%","50%","75%","100%")) +
     geom_vline(xintercept=20, linetype="longdash", color="grey55") +
@@ -120,7 +119,7 @@ for(i in names <- samples$Name){
           axis.text.y=element_text(color="black"), axis.text.x=element_text(color="black"),
           axis.ticks=element_line(color="black"), axis.title=element_text(color="black"),
           legend.position="right", axis.line=element_line(color="black")) +
-    ylab("Weighted methylation") + 
+    ylab("Methylation level") + 
     xlab( "" ) +
     scale_y_continuous(limits=c(0,0.10), expand=c(0,0), breaks=c(0.025,0.05,0.075,0.10),labels=c("2.5%","5%","7.5%","10%")) +
     geom_vline(xintercept=20, linetype="longdash", color="grey55") +

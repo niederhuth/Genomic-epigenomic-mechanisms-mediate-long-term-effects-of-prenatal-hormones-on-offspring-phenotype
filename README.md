@@ -31,7 +31,7 @@ conda env create -f scripts/zebra-finch-brains.yml
 **3)** You will now need to create a symbolic link within this environment for methylpy to work.
 
 ```
-cd anaconda3/env/zebra-finch-brains/lib
+cd miniconda3/env/zebra-finch-brains/lib
 ln -s libgsl.so.23.0.0 libgsl.so.0
 ```
 

@@ -28,7 +28,8 @@ cd Genomic-epigenomic-mechanisms-mediate-long-term-effects-of-prenatal-hormones-
 conda env create -f scripts/zebra-finch-brains.yml
 ```
 
-**3)** You will now need to create a symbolic link within this environment for methylpy to work.
+**3)** You will now need to create a symbolic link within this environment for methylpy to work. This will require you to cd into the environment located
+in your anaconda (or miniconda) directory.
 
 ```
 cd miniconda3/env/zebra-finch-brains/lib

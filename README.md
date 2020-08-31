@@ -25,13 +25,13 @@ cd Genomic-epigenomic-mechanisms-mediate-long-term-effects-of-prenatal-hormones-
 **2)** Create the conda environment
 
 ```
-conda env create -f Bnapus-polyploidy.yml
+conda env create -f scripts/zebra-finch-brains.yml
 ```
 
 **3)** You will now need to create a symbolic link within this environment for methylpy to work.
 
 ```
-cd /env/Bnapus-polyploidy/lib
+cd anaconda3/env/zebra-finch-brains/lib
 ln -s libgsl.so.23.0.0 libgsl.so.0
 ```
 

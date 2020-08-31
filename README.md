@@ -1,8 +1,7 @@
 ---
 Title: "Prenatal testosterone triggers long-term behavioral changes in male zebra finches: unravelling the neurogenomic mechanisms."
-Bioinformatic Analysis: "Chad Niederhuth"
-Collaborator: "Alex Bentz"
-Raw data: "Link to data on SRA will be provided at later point"
+Authors: "Alex Bentz, Chad E. Niederhuth, Laura L. Carruth, and Kristen J. Navara"
+Raw data: "GEO Accession: GSE100396"
 ---
 
 This repository is for scripts and processed data for the paper:
